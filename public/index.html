@@ -70,6 +70,7 @@
     const modalOverlay = document.getElementById('modal-overlay');
     const modal = document.getElementById('modal');
     const cancelButton = document.getElementById('cancelButton');
+    const saveButton = document.getElementById('saveButton');
 
     addTodo.addEventListener('click', function() {
       modalOverlay.style.display = 'block';
@@ -79,6 +80,46 @@
     cancelButton.addEventListener('click', function() {
       modalOverlay.style.display = 'none';
       modal.style.display = 'none';
+    });
+
+    saveButton.addEventListener('click', function() {
+      const title = document.getElementById('title').value.trim();
+      if (title.length < 3) {
+        alert('Title must be at least 3 characters long.');
+        return;
+      }
+
+      const day = document.getElementById('dueDay').value;
+      const month = document.getElementById('dueMonth').value;
+      const year = document.getElementById('dueYear').value;
+      const completed = false;
+      const description = document.getElementById('description').value.trim();
+
+      const todoData = {
+        title,
+        day,
+        month,
+        year,
+        completed,
+        description,
+      };
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost:3000/api/todos', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 201) {
+            const response = JSON.parse(xhr.responseText);
+            alert('Todo saved successfully:\n' + JSON.stringify(response));
+            modalOverlay.style.display = 'none';
+            modal.style.display = 'none';
+          } else {
+            alert('Todo cannot be saved.');
+          }
+        }
+      };
+      xhr.send(JSON.stringify(todoData));
     });
 
     // Generate options for day dropdown
@@ -93,13 +134,12 @@
     // Generate options for month dropdown
     const dueMonthSelect = document.getElementById('dueMonth');
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June', 'July',
-      'August', 'September', 'October', 'November', 'December'
+      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
     ];
-    for (let month of months) {
+    for (let i = 0; i < months.length; i++) {
       const option = document.createElement('option');
-      option.value = month;
-      option.textContent = month;
+      option.value = months[i];
+      option.textContent = months[i];
       dueMonthSelect.appendChild(option);
     }
 

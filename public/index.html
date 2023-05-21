@@ -4,9 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Todo App</title>
+  <style>
+    /* Styles for the modal */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 </head>
 <body>
-  <p>Visit /doc/ for the documentation</p>
+  <h1>Todo App</h1>
+  
+  <p id="addTodo" style="cursor: pointer; text-decoration: underline;">+ Add new todo</p>
+  
+  <div id="modal-overlay">
+    <div id="modal">
+      <label for="title">Title:</label>
+      <input type="text" id="title">
+      <br>
+      <label for="dueDate">Due Date:</label>
+      <input type="date" id="dueDate">
+      <br>
+      <label for="description">Description:</label>
+      <textarea id="description" rows="4"></textarea>
+      <br>
+      <button id="saveButton">Save</button>
+      <button id="markCompleteButton">Mark As Complete</button>
+      <button id="cancelButton">Cancel</button>
+    </div>
+  </div>
+  
+  <script>
+    // Show modal when "+ Add new todo" is clicked
+    const addTodo = document.getElementById('addTodo');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal = document.getElementById('modal');
+    const cancelButton = document.getElementById('cancelButton');
+
+    addTodo.addEventListener('click', function() {
+      modalOverlay.style.display = 'block';
+      modal.style.display = 'block';
+    });
+
+    cancelButton.addEventListener('click', function() {
+      modalOverlay.style.display = 'none';
+      modal.style.display = 'none';
+    });
+  </script>
 </body>
 </html>

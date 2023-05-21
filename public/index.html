@@ -190,6 +190,8 @@
             alert('Todo saved successfully:\n' + JSON.stringify(response));
             modalOverlay.style.display = 'none';
             modal.style.display = 'none';
+            // Refresh page after adding new todo
+            location.reload();
           } else {
             alert('Todo cannot be saved.');
           }

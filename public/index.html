@@ -40,11 +40,20 @@
       <label for="title">Title:</label>
       <input type="text" id="title">
       <br>
-      <label for="dueDate">Due Date:</label>
-      <input type="date" id="dueDate">
+      <label for="dueDay">Day:</label>
+      <select id="dueDay">
+        <option value="">Day</option>
+      </select>
       <br>
-      <label for="description">Description:</label>
-      <textarea id="description" rows="4"></textarea>
+      <label for="dueMonth">Month:</label>
+      <select id="dueMonth">
+        <option value="">Month</option>
+      </select>
+      <br>
+      <label for="dueYear">Year:</label>
+      <select id="dueYear">
+        <option value="">Year</option>
+      </select>
       <br>
       <button id="saveButton">Save</button>
       <button id="markCompleteButton">Mark As Complete</button>
@@ -68,6 +77,39 @@
       modalOverlay.style.display = 'none';
       modal.style.display = 'none';
     });
+
+    // Generate options for day dropdown
+    const dueDaySelect = document.getElementById('dueDay');
+    for (let day = 1; day <= 31; day++) {
+      const option = document.createElement('option');
+      option.value = day;
+      option.textContent = day;
+      dueDaySelect.appendChild(option);
+    }
+
+    // Generate options for month dropdown
+    const dueMonthSelect = document.getElementById('dueMonth');
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'
+    ];
+    for (let month of months) {
+      const option = document.createElement('option');
+      option.value = month;
+      option.textContent = month;
+      dueMonthSelect.appendChild(option);
+    }
+
+    // Generate options for year dropdown
+    const dueYearSelect = document.getElementById('dueYear');
+    const currentYear = new Date().getFullYear();
+    const nextDecade = currentYear + 10;
+    for (let year = currentYear; year <= nextDecade; year++) {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = year;
+      dueYearSelect.appendChild(option);
+    }
   </script>
 </body>
 </html>

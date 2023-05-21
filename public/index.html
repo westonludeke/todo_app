@@ -65,51 +65,78 @@
   </div>
   
   <script>
-    // Function to retrieve and display todos
-function fetchTodos() {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://localhost:3000/api/todos', true);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        const todos = JSON.parse(xhr.responseText);
-        displayTodos(todos);
-      } else {
-        alert('Failed to fetch todos.');
+  // Function to retrieve and display todos
+  function fetchTodos() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost:3000/api/todos', true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          const todos = JSON.parse(xhr.responseText);
+          displayTodos(todos);
+        } else {
+          alert('Failed to fetch todos.');
+        }
       }
-    }
-  };
-  xhr.send();
-}
+    };
+    xhr.send();
+  }
 
-// Function to display todos on the webpage
-function displayTodos(todos) {
-  const todoList = document.createElement('ul');
-  todos.forEach(function(todo) {
-    const listItem = document.createElement('li');
-    const title = todo.title;
-    const month = todo.month;
-    const year = todo.year;
-    let dueDate = '';
+  // Function to display todos on the webpage
+  function displayTodos(todos) {
+    const todoList = document.createElement('ul');
+    todos.forEach(function (todo) {
+      const listItem = document.createElement('li');
+      const title = todo.title;
+      const month = todo.month;
+      const year = todo.year;
+      let dueDate = '';
 
-    if (month && year) {
-      dueDate = `${month}/${year.slice(-2)}`;
-    } else {
-      dueDate = 'No Due Date';
-    }
+      if (month && year) {
+        dueDate = `${month}/${year.slice(-2)}`;
+      } else {
+        dueDate = 'No Due Date';
+      }
 
-    listItem.textContent = `${title} - ${dueDate}`;
-    todoList.appendChild(listItem);
+      listItem.textContent = `${title} - ${dueDate}`;
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.addEventListener('click', function () {
+        deleteTodoItem(todo.id);
+      });
+
+      listItem.appendChild(deleteButton);
+      todoList.appendChild(listItem);
+    });
+
+    const addTodo = document.getElementById('addTodo');
+    addTodo.parentNode.insertBefore(todoList, addTodo.nextSibling);
+  }
+
+  // Function to delete a todo item
+  function deleteTodoItem(todoId) {
+    console.log('Deleting todo with ID:', todoId);
+    const xhr = new XMLHttpRequest();
+    xhr.open('DELETE', `http://localhost:3000/api/todos/${todoId}`, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 204) {
+          alert('Todo deleted successfully.');
+          // Refresh the todos after deletion
+          fetchTodos();
+        } else {
+          alert('Failed to delete todo.');
+        }
+      }
+    };
+    xhr.send();
+  }
+
+  // Call the fetchTodos function when the webpage loads
+  window.addEventListener('load', function() {
+    fetchTodos();
   });
-
-  const addTodo = document.getElementById('addTodo');
-  addTodo.parentNode.insertBefore(todoList, addTodo.nextSibling);
-}
-
-// Call the fetchTodos function when the webpage loads
-window.addEventListener('load', function() {
-  fetchTodos();
-});
 
     // Show modal when "+ Add new todo" is clicked
     const addTodo = document.getElementById('addTodo');

@@ -32,6 +32,7 @@
 </head>
 <body>
   <h1>Todo App</h1>
+  <h3>All Todos - </h3>
   
   <p id="addTodo" style="cursor: pointer; text-decoration: underline;">+ Add new todo</p>
   
@@ -112,6 +113,12 @@
 
     const addTodo = document.getElementById('addTodo');
     addTodo.parentNode.insertBefore(todoList, addTodo.nextSibling);
+
+    const todoCount = document.createElement('span');
+    todoCount.textContent = todos.length;
+    const todoHeader = document.querySelector('h3');
+    todoHeader.appendChild(document.createTextNode(' '));
+    todoHeader.appendChild(todoCount);
   }
 
   // Call the fetchTodos function when the webpage loads

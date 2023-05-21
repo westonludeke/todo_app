@@ -114,6 +114,11 @@
     addTodo.parentNode.insertBefore(todoList, addTodo.nextSibling);
   }
 
+  // Call the fetchTodos function when the webpage loads
+  window.addEventListener('load', function() {
+    fetchTodos();
+  });
+
   // Function to delete a todo item
   function deleteTodoItem(todoId) {
     console.log('Deleting todo with ID:', todoId);
@@ -123,8 +128,8 @@
       if (xhr.readyState === 4) {
         if (xhr.status === 204) {
           alert('Todo deleted successfully.');
-          // Refresh the todos after deletion
-          fetchTodos();
+          // Refresh page after deletion
+          location.reload();
         } else {
           alert('Failed to delete todo.');
         }
@@ -132,12 +137,6 @@
     };
     xhr.send();
   }
-
-  // Call the fetchTodos function when the webpage loads
-  window.addEventListener('load', function() {
-    fetchTodos();
-  });
-
     // Show modal when "+ Add new todo" is clicked
     const addTodo = document.getElementById('addTodo');
     const modalOverlay = document.getElementById('modal-overlay');

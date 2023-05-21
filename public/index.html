@@ -107,6 +107,11 @@
         deleteTodoItem(todo.id);
       });
 
+      // Add click event listener to open modal with todo details
+      listItem.addEventListener('click', function () {
+        openTodoModal(todo);
+      });
+
       listItem.appendChild(deleteButton);
       todoList.appendChild(listItem);
     });
@@ -206,6 +211,35 @@
       };
       xhr.send(JSON.stringify(todoData));
     });
+
+    // Function to open the modal with todo details
+function openTodoModal(todo) {
+  const titleInput = document.getElementById('title');
+  const dueDaySelect = document.getElementById('dueDay');
+  const dueMonthSelect = document.getElementById('dueMonth');
+  const dueYearSelect = document.getElementById('dueYear');
+  const descriptionTextarea = document.getElementById('description');
+
+  // Populate the modal with todo data
+  titleInput.value = todo.title;
+  dueDaySelect.value = todo.day;
+  dueMonthSelect.value = convertMonthIndexToName(todo.month);
+  dueYearSelect.value = todo.year;
+  descriptionTextarea.value = todo.description;
+
+  modalOverlay.style.display = 'block';
+  modal.style.display = 'block';
+}
+
+// Function to convert month index to name
+function convertMonthIndexToName(monthIndex) {
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  return months[parseInt(monthIndex) - 1];
+}
+
 
     // Generate options for day dropdown
     const dueDaySelect = document.getElementById('dueDay');

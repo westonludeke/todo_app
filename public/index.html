@@ -100,7 +100,7 @@
 
       const todoData = {
         title,
-        day: dueDay,
+        day: dueDay.toString().padStart(2, '0'),
         month: dueMonth.toString().padStart(2, '0'),
         year: dueYear,
         completed,

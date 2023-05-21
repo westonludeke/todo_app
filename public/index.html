@@ -89,20 +89,24 @@
         return;
       }
 
-      const day = document.getElementById('dueDay').value;
-      const month = document.getElementById('dueMonth').value;
-      const year = document.getElementById('dueYear').value;
+      const dueDay = document.getElementById('dueDay').selectedIndex;
+      console.log('dueDay: ', dueDay);
+      const dueMonth = document.getElementById('dueMonth').selectedIndex;
+      console.log('dueMonth: ', dueMonth);
+      const dueYear = document.getElementById('dueYear').value;
+      console.log('dueYear: ', dueYear);
       const completed = false;
       const description = document.getElementById('description').value.trim();
 
       const todoData = {
         title,
-        day,
-        month,
-        year,
+        day: dueDay,
+        month: dueMonth.toString().padStart(2, '0'),
+        year: dueYear,
         completed,
         description,
       };
+      console.log('todoData: ', todoData);
 
       const xhr = new XMLHttpRequest();
       xhr.open('POST', 'http://localhost:3000/api/todos', true);

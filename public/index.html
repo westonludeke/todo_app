@@ -65,6 +65,52 @@
   </div>
   
   <script>
+    // Function to retrieve and display todos
+function fetchTodos() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://localhost:3000/api/todos', true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        const todos = JSON.parse(xhr.responseText);
+        displayTodos(todos);
+      } else {
+        alert('Failed to fetch todos.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+// Function to display todos on the webpage
+function displayTodos(todos) {
+  const todoList = document.createElement('ul');
+  todos.forEach(function(todo) {
+    const listItem = document.createElement('li');
+    const title = todo.title;
+    const month = todo.month;
+    const year = todo.year;
+    let dueDate = '';
+
+    if (month && year) {
+      dueDate = `${month}/${year.slice(-2)}`;
+    } else {
+      dueDate = 'No Due Date';
+    }
+
+    listItem.textContent = `${title} - ${dueDate}`;
+    todoList.appendChild(listItem);
+  });
+
+  const addTodo = document.getElementById('addTodo');
+  addTodo.parentNode.insertBefore(todoList, addTodo.nextSibling);
+}
+
+// Call the fetchTodos function when the webpage loads
+window.addEventListener('load', function() {
+  fetchTodos();
+});
+
     // Show modal when "+ Add new todo" is clicked
     const addTodo = document.getElementById('addTodo');
     const modalOverlay = document.getElementById('modal-overlay');

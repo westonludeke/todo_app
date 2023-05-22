@@ -73,14 +73,14 @@
   <div id="sidebar">
     <h2>Todo Lists</h2>
     <ul>
-      <li><a href="#" class="active">All Todos</a></li>
-      <!-- Add more todo lists here -->
+      <li id="allTodos"><a href="#" class="active">All Todos</a></li>
+      <li id="completedTodos">Completed Todos</li>
     </ul>
   </div>
 
   <div id="content">
     <h1>Todo App</h1>
-    <h3>All Todos - </h3>
+    <h3 id="listHeader">All Todos - </h3>
     
     <p id="addTodo" style="cursor: pointer; text-decoration: underline;">+ Add new todo</p>
     
@@ -135,6 +135,26 @@
     xhr.send();
   }
 
+  // Function to fetch and display only completed todos
+  function fetchFilteredTodos() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost:3000/api/todos', true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          const todos = JSON.parse(xhr.responseText);
+          const filteredTodos = todos.filter(function(todo) {
+            return todo.completed === true;
+          });
+          displayTodos(filteredTodos);
+        } else {
+          alert('Failed to fetch todos.');
+        }
+      }
+    };
+    xhr.send();
+  }
+
   // Function to display todos on the webpage
   function displayTodos(todos) {
     // Sort todos based on completion status
@@ -152,6 +172,8 @@
     });
 
     const todoList = document.createElement('ul');
+    const ul = document.querySelector('ul');
+    ul.setAttribute('id', 'todoList');
     todos.forEach(function (todo) {
       const listItem = document.createElement('li');
       const title = todo.title;
@@ -171,6 +193,9 @@
       if (todo.completed) {
         listItem.style.textDecoration = 'line-through';
       }
+
+      // Add 'todo' class to the todo item
+      listItem.classList.add('todo');
 
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
@@ -391,6 +416,17 @@
       });
     }
 
+    // Get references to the required elements
+    const allTodosList = document.getElementById('allTodos');
+    const completedTodosList = document.getElementById('completedTodos');
+    const todosHeader = document.getElementById('listHeader');
+
+    // Add click event listener to the 'Completed Todos' list item
+    completedTodosList.addEventListener('click', function() {
+      // Change the header text to 'Completed Todos'
+      todosHeader.textContent = 'Completed Todos - ';
+      fetchFilteredTodos();
+    });
 
     // Function to convert month index to name
     function convertMonthIndexToName(monthIndex) {
@@ -400,7 +436,6 @@
       ];
       return months[parseInt(monthIndex) - 1];
     }
-
 
     // Generate options for day dropdown
     const dueDaySelect = document.getElementById('dueDay');

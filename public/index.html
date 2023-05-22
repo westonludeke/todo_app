@@ -104,6 +104,7 @@
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
       deleteButton.addEventListener('click', function () {
+        event.stopPropagation();
         deleteTodoItem(todo.id);
       });
 
@@ -213,32 +214,32 @@
     });
 
     // Function to open the modal with todo details
-function openTodoModal(todo) {
-  const titleInput = document.getElementById('title');
-  const dueDaySelect = document.getElementById('dueDay');
-  const dueMonthSelect = document.getElementById('dueMonth');
-  const dueYearSelect = document.getElementById('dueYear');
-  const descriptionTextarea = document.getElementById('description');
+    function openTodoModal(todo) {
+      const titleInput = document.getElementById('title');
+      const dueDaySelect = document.getElementById('dueDay');
+      const dueMonthSelect = document.getElementById('dueMonth');
+      const dueYearSelect = document.getElementById('dueYear');
+      const descriptionTextarea = document.getElementById('description');
 
-  // Populate the modal with todo data
-  titleInput.value = todo.title;
-  dueDaySelect.value = todo.day.replace(/^0+/, ''); // Remove leading zero if it exists
-  dueMonthSelect.value = convertMonthIndexToName(todo.month);
-  dueYearSelect.value = todo.year;
-  descriptionTextarea.value = todo.description;
+      // Populate the modal with todo data
+      titleInput.value = todo.title;
+      dueDaySelect.value = todo.day.replace(/^0+/, ''); // Remove leading zero if it exists
+      dueMonthSelect.value = convertMonthIndexToName(todo.month);
+      dueYearSelect.value = todo.year;
+      descriptionTextarea.value = todo.description;
 
-  modalOverlay.style.display = 'block';
-  modal.style.display = 'block';
-}
+      modalOverlay.style.display = 'block';
+      modal.style.display = 'block';
+    }
 
-// Function to convert month index to name
-function convertMonthIndexToName(monthIndex) {
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-  return months[parseInt(monthIndex) - 1];
-}
+    // Function to convert month index to name
+    function convertMonthIndexToName(monthIndex) {
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      return months[parseInt(monthIndex) - 1];
+    }
 
 
     // Generate options for day dropdown

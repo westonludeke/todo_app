@@ -103,6 +103,11 @@
 
       listItem.textContent = `${title} - ${dueDate}`;
 
+      // Apply strikethrough if todo is completed
+      if (todo.completed) {
+        listItem.style.textDecoration = 'line-through';
+      }
+
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
       deleteButton.addEventListener('click', function () {

@@ -7,8 +7,7 @@
   <title>Todo App</title>
   <style>
     /* Styles for the modal */
-    #modal-overlay,
-    #edit-modal-overlay {
+    #modal-overlay {
       display: none;
       position: fixed;
       top: 0;
@@ -18,8 +17,7 @@
       background-color: rgba(0, 0, 0, 0.5);
     }
 
-    #modal,
-    #edit-modal {
+    #modal {
       display: none;
       position: fixed;
       top: 50%;
@@ -61,32 +59,10 @@
       <label for="description">Description:</label>
       <textarea id="description" placeholder="Description"></textarea>
       <br>
-      <button id="saveButton">Save</button>
+      <button id="new-saveButton">Save</button>
+      <button id="edit-saveButton">Saved</button>
       <button id="markCompleteButton">Mark As Complete</button>
       <button id="cancelButton">Cancel</button>
-    </div>
-  </div>
-
-  <div id="edit-modal-overlay">
-    <div id="edit-modal">
-      <label for="title">Title:</label>
-      <input type="text" id="title">
-      <br>
-      <label for="dueDay">Day:</label>
-      <select id="dueDay"></select>
-      <br>
-      <label for="edit-dueMonth">Month:</label>
-      <select id="edit-dueMonth"></select>
-      <br>
-      <label for="edit-dueYear">Year:</label>
-      <select id="edit-dueYear"></select>
-      <br>
-      <label for="edit-description">Description:</label>
-      <textarea id="edit-description"></textarea>
-      <br>
-      <button id="updateButton">Update</button>
-      <button id="edit-markCompleteButton">Mark As Complete</button>
-      <button id="edit-cancelButton">Cancel</button>
     </div>
   </div>
   
@@ -180,7 +156,13 @@
     const modalOverlay = document.getElementById('modal-overlay');
     const modal = document.getElementById('modal');
     const cancelButton = document.getElementById('cancelButton');
-    const saveButton = document.getElementById('saveButton');
+    const newSaveButton = document.getElementById('new-saveButton');
+
+    // Hide edit save button and display new save button
+    const hideEditSaveButton = document.getElementById('edit-saveButton');
+    hideEditSaveButton.style.display = "none";
+    const showNewSaveButton = document.getElementById('new-saveButton');
+    showNewSaveButton.style.display = "block";
 
     addTodo.addEventListener('click', function() {
       modalOverlay.style.display = 'block';
@@ -190,9 +172,10 @@
     cancelButton.addEventListener('click', function() {
       modalOverlay.style.display = 'none';
       modal.style.display = 'none';
+      location.reload();
     });
 
-    saveButton.addEventListener('click', function() {
+    newSaveButton.addEventListener('click', function() {
       const title = document.getElementById('title').value.trim();
       if (title.length < 3) {
         alert('Title must be at least 3 characters long.');
@@ -262,9 +245,13 @@
       const dueMonthSelect = document.getElementById('dueMonth');
       const dueYearSelect = document.getElementById('dueYear');
       const descriptionTextarea = document.getElementById('description');
-      const updateButton = document.getElementById('updateButton');
-      const editModalOverlay = document.getElementById('edit-modal-overlay');
-      const editModal = document.getElementById('edit-modal');
+      const updateSaveButton = document.getElementById('update-saveButton');
+
+      // Hide new save button and show edit save button
+      const hideNewSaveButton = document.getElementById('new-saveButton');
+      hideNewSaveButton.style.display = "none";
+      const showEditSaveButton = document.getElementById('edit-saveButton');
+      showEditSaveButton.style.display = "block";
 
       // Populate the modal with todo data
       titleInput.value = todo.title;
@@ -273,12 +260,11 @@
       dueYearSelect.value = todo.year;
       descriptionTextarea.value = todo.description;
 
-      editModalOverlay.style.display = 'block';
-      editModal.style.display = 'block';
+      modalOverlay.style.display = 'block';
+      modal.style.display = 'block';
 
-
-      // Update todo on update button click
-      updateButton.addEventListener('click', function() {
+      // Update todo on save button click
+      updateSaveButton.addEventListener('click', function() {
         const updatedTitle = titleInput.value.trim();
         if (updatedTitle.length < 3) {
           alert('Title must be at least 3 characters long.');
@@ -300,14 +286,8 @@
 
         updateTodoItem(todo.id, updatedTodo);
       });
-
-      // Cancel update modal
-      const editCancelButton = document.getElementById('edit-cancelButton');
-      editCancelButton.addEventListener('click', function() {
-        editModalOverlay.style.display = 'none';
-        editModal.style.display = 'none';
-      });
     }
+
 
     // Function to convert month index to name
     function convertMonthIndexToName(monthIndex) {
@@ -317,6 +297,7 @@
       ];
       return months[parseInt(monthIndex) - 1];
     }
+
 
     // Generate options for day dropdown
     const dueDaySelect = document.getElementById('dueDay');

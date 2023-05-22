@@ -28,45 +28,89 @@
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
+
+    /* Styles for the sidebar */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100%;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+
+    #sidebar h2 {
+      margin-top: 0;
+    }
+
+    #sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    #sidebar li {
+      margin-bottom: 10px;
+    }
+
+    #sidebar li a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    #sidebar li a.active {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <h1>Todo App</h1>
-  <h3>All Todos - </h3>
-  
-  <p id="addTodo" style="cursor: pointer; text-decoration: underline;">+ Add new todo</p>
-  
-  <div id="modal-overlay">
-    <div id="modal">
-      <label for="title">Title:</label>
-      <input type="text" id="title" placeholder="Item 1">
-      <br>
-      <label for="dueDay">Day:</label>
-      <select id="dueDay">
-        <option value="">Day</option>
-      </select>
-      <br>
-      <label for="dueMonth">Month:</label>
-      <select id="dueMonth">
-        <option value="">Month</option>
-      </select>
-      <br>
-      <label for="dueYear">Year:</label>
-      <select id="dueYear">
-        <option value="">Year</option>
-      </select>
-      <br>
-      <label for="description">Description:</label>
-      <textarea id="description" placeholder="Description"></textarea>
-      <br>
-      <button id="new-saveButton">Save</button>
-      <button id="edit-saveButton">Update</button>
-      <button id="markCompleteButton">Mark As Complete</button>
-      <button id="markIncompleteButton">Mark As Incomplete</button>
-      <button id="cancelButton">Cancel</button>
+  <div id="sidebar">
+    <h2>Todo Lists</h2>
+    <ul>
+      <li><a href="#" class="active">All Todos</a></li>
+      <!-- Add more todo lists here -->
+    </ul>
+  </div>
+
+  <div id="content">
+    <h1>Todo App</h1>
+    <h3>All Todos - </h3>
+    
+    <p id="addTodo" style="cursor: pointer; text-decoration: underline;">+ Add new todo</p>
+    
+    <div id="modal-overlay">
+      <div id="modal">
+        <label for="title">Title:</label>
+        <input type="text" id="title" placeholder="Item 1">
+        <br>
+        <label for="dueDay">Day:</label>
+        <select id="dueDay">
+          <option value="">Day</option>
+        </select>
+        <br>
+        <label for="dueMonth">Month:</label>
+        <select id="dueMonth">
+          <option value="">Month</option>
+        </select>
+        <br>
+        <label for="dueYear">Year:</label>
+        <select id="dueYear">
+          <option value="">Year</option>
+        </select>
+        <br>
+        <label for="description">Description:</label>
+        <textarea id="description" placeholder="Description"></textarea>
+        <br>
+        <button id="new-saveButton">Save</button>
+        <button id="edit-saveButton">Update</button>
+        <button id="markCompleteButton">Mark As Complete</button>
+        <button id="markIncompleteButton">Mark As Incomplete</button>
+        <button id="cancelButton">Cancel</button>
+      </div>
     </div>
   </div>
-  
+
   <script>
 
   // Function to retrieve and display todos

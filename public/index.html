@@ -64,6 +64,35 @@
       <button id="cancelButton">Cancel</button>
     </div>
   </div>
+
+  <!-- <div id="modal-overlay">
+    <div id="edit-modal">
+      <label for="title">Title:</label>
+      <input type="text" id="title">
+      <br>
+      <label for="dueDay">Day:</label>
+      <select id="dueDay">
+        <option value="">Day</option>
+      </select>
+      <br>
+      <label for="dueMonth">Month:</label>
+      <select id="dueMonth">
+        <option value="">Month</option>
+      </select>
+      <br>
+      <label for="dueYear">Year:</label>
+      <select id="dueYear">
+        <option value="">Year</option>
+      </select>
+      <br>
+      <label for="description">Description:</label>
+      <textarea id="description"></textarea>
+      <br>
+      <button id="saveButton">Save</button>
+      <button id="markCompleteButton">Mark As Complete</button>
+      <button id="cancelButton">Cancel</button>
+    </div> -->
+  </div>
   
   <script>
   // Function to retrieve and display todos
@@ -190,6 +219,7 @@
       };
 
       const xhr = new XMLHttpRequest();
+
       xhr.open('POST', 'http://localhost:3000/api/todos', true);
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onreadystatechange = function() {
@@ -209,6 +239,26 @@
       xhr.send(JSON.stringify(todoData));
     });
 
+    // Function to update a todo item
+    function updateTodoItem(todoId, updatedTodo) {
+      console.log('Updating todo with ID:', todoId);
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            alert('Todo updated successfully.');
+            // Refresh page after update
+            location.reload();
+          } else {
+            alert('Failed to update todo.');
+          }
+        }
+      };
+      xhr.send(JSON.stringify(updatedTodo));
+    }
+
     // Function to open the modal with todo details
     function openTodoModal(todo) {
       const titleInput = document.getElementById('title');
@@ -216,6 +266,7 @@
       const dueMonthSelect = document.getElementById('dueMonth');
       const dueYearSelect = document.getElementById('dueYear');
       const descriptionTextarea = document.getElementById('description');
+      const saveButton = document.getElementById('saveButton');
 
       // Populate the modal with todo data
       titleInput.value = todo.title;
@@ -226,7 +277,32 @@
 
       modalOverlay.style.display = 'block';
       modal.style.display = 'block';
+
+      // Update todo on save button click
+      saveButton.addEventListener('click', function() {
+        const updatedTitle = titleInput.value.trim();
+        if (updatedTitle.length < 3) {
+          alert('Title must be at least 3 characters long.');
+          return;
+        }
+
+        const updatedDueDay = dueDaySelect.value;
+        const updatedDueMonth = dueMonthSelect.selectedIndex;
+        const updatedDueYear = dueYearSelect.value;
+        const updatedDescription = descriptionTextarea.value.trim();
+
+        const updatedTodo = {
+          title: updatedTitle,
+          day: updatedDueDay.toString().padStart(2, '0'),
+          month: updatedDueMonth.toString().padStart(2, '0'),
+          year: updatedDueYear,
+          description: updatedDescription,
+        };
+
+        updateTodoItem(todo.id, updatedTodo);
+      });
     }
+
 
     // Function to convert month index to name
     function convertMonthIndexToName(monthIndex) {

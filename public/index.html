@@ -183,6 +183,9 @@
     hideEditSaveButton.style.display = "none";
     const showNewSaveButton = document.getElementById('new-saveButton');
     showNewSaveButton.style.display = "block";
+    // Hide mark as complete button
+    const hideMarkCompleteButton = document.getElementById('markCompleteButton');
+    hideMarkCompleteButton.style.display = "none";
 
     addTodo.addEventListener('click', function() {
       modalOverlay.style.display = 'block';
@@ -272,6 +275,9 @@
       hideNewSaveButton.style.display = "none";
       const showEditSaveButton = document.getElementById('edit-saveButton');
       showEditSaveButton.style.display = "block";
+      // Show mark as complete button
+      const showMarkCompleteButton = document.getElementById('markCompleteButton');
+      showMarkCompleteButton.style.display = "block";
 
       // Populate the modal with todo data
       titleInput.value = todo.title;

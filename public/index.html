@@ -87,6 +87,20 @@
 
   // Function to display todos on the webpage
   function displayTodos(todos) {
+    // Sort todos based on completion status
+    todos.sort(function(a, b) {
+      // Move completed todos to the bottom
+      if (a.completed && !b.completed) {
+        return 1;
+      }
+      // Move incomplete todos to the top
+      if (!a.completed && b.completed) {
+        return -1;
+      }
+      // Maintain order for todos with the same completion status
+      return 0;
+    });
+
     const todoList = document.createElement('ul');
     todos.forEach(function (todo) {
       const listItem = document.createElement('li');

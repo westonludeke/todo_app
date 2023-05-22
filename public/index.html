@@ -276,8 +276,17 @@
       const showEditSaveButton = document.getElementById('edit-saveButton');
       showEditSaveButton.style.display = "block";
       // Show mark as complete button
-      const showMarkCompleteButton = document.getElementById('markCompleteButton');
-      showMarkCompleteButton.style.display = "block";
+      const markCompleteButton = document.getElementById('markCompleteButton');
+      markCompleteButton.style.display = "block";
+
+      // mark todo as complete
+      markCompleteButton.addEventListener('click', function() {
+        const updatedTodo = {
+          completed: true
+        };
+        updateTodoItem(todo.id, updatedTodo);
+      });
+
 
       // Populate the modal with todo data
       titleInput.value = todo.title;

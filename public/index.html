@@ -222,7 +222,7 @@ function openTodoModal(todo) {
 
   // Populate the modal with todo data
   titleInput.value = todo.title;
-  dueDaySelect.value = todo.day;
+  dueDaySelect.value = todo.day.replace(/^0+/, ''); // Remove leading zero if it exists
   dueMonthSelect.value = convertMonthIndexToName(todo.month);
   dueYearSelect.value = todo.year;
   descriptionTextarea.value = todo.description;

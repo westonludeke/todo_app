@@ -62,6 +62,7 @@
       <button id="new-saveButton">Save</button>
       <button id="edit-saveButton">Update</button>
       <button id="markCompleteButton">Mark As Complete</button>
+      <button id="markIncompleteButton">Mark As Incomplete</button>
       <button id="cancelButton">Cancel</button>
     </div>
   </div>
@@ -183,9 +184,11 @@
     hideEditSaveButton.style.display = "none";
     const showNewSaveButton = document.getElementById('new-saveButton');
     showNewSaveButton.style.display = "block";
-    // Hide mark as complete button
+    // Hide Mark As Complete and Mark As Incomplete buttons
     const hideMarkCompleteButton = document.getElementById('markCompleteButton');
     hideMarkCompleteButton.style.display = "none";
+    const hideMarkIncompleteButton = document.getElementById('markIncompleteButton');
+    hideMarkIncompleteButton.style.display = "none";
 
     addTodo.addEventListener('click', function() {
       modalOverlay.style.display = 'block';
@@ -263,6 +266,8 @@
 
     // Function to open the modal with todo details
     function openTodoModal(todo) {
+      console.log('todo: ', todo);
+      console.log('todo.completed: ', todo.completed);
       const titleInput = document.getElementById('title');
       const dueDaySelect = document.getElementById('dueDay');
       const dueMonthSelect = document.getElementById('dueMonth');
@@ -275,17 +280,31 @@
       hideNewSaveButton.style.display = "none";
       const showEditSaveButton = document.getElementById('edit-saveButton');
       showEditSaveButton.style.display = "block";
-      // Show mark as complete button
-      const markCompleteButton = document.getElementById('markCompleteButton');
-      markCompleteButton.style.display = "block";
 
-      // mark todo as complete
-      markCompleteButton.addEventListener('click', function() {
-        const updatedTodo = {
-          completed: true
-        };
-        updateTodoItem(todo.id, updatedTodo);
-      });
+      if (todo.completed === false){
+        // Show Mark As Complete button
+        const markCompleteButton = document.getElementById('markCompleteButton');
+        markCompleteButton.style.display = "block";
+
+        // mark todo as complete
+        markCompleteButton.addEventListener('click', function() {
+          const updatedTodo = {
+            completed: true
+          };
+          updateTodoItem(todo.id, updatedTodo);
+        });
+      } else {
+        // Show Mark As Incomplete button
+        const markIncompleteButton = document.getElementById('markIncompleteButton');
+        markIncompleteButton.style.display = 'block';
+        // mark todo as incomplete
+        markIncompleteButton.addEventListener('click', function() {
+          const updatedTodo = {
+            completed: false
+          };
+          updateTodoItem(todo.id, updatedTodo);
+        });
+      }
 
 
       // Populate the modal with todo data

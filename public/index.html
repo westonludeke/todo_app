@@ -67,6 +67,7 @@
   </div>
   
   <script>
+
   // Function to retrieve and display todos
   function fetchTodos() {
     const xhr = new XMLHttpRequest();
@@ -245,7 +246,7 @@
       const dueMonthSelect = document.getElementById('dueMonth');
       const dueYearSelect = document.getElementById('dueYear');
       const descriptionTextarea = document.getElementById('description');
-      const updateSaveButton = document.getElementById('update-saveButton');
+      const editSaveButton = document.getElementById('edit-saveButton');
 
       // Hide new save button and show edit save button
       const hideNewSaveButton = document.getElementById('new-saveButton');
@@ -264,7 +265,7 @@
       modal.style.display = 'block';
 
       // Update todo on save button click
-      updateSaveButton.addEventListener('click', function() {
+      editSaveButton.addEventListener('click', function() {
         const updatedTitle = titleInput.value.trim();
         if (updatedTitle.length < 3) {
           alert('Title must be at least 3 characters long.');
@@ -330,6 +331,7 @@
       option.textContent = year;
       dueYearSelect.appendChild(option);
     }
+
   </script>
 </body>
 </html>

@@ -7,7 +7,8 @@
   <title>Todo App</title>
   <style>
     /* Styles for the modal */
-    #modal-overlay {
+    #modal-overlay,
+    #edit-modal-overlay {
       display: none;
       position: fixed;
       top: 0;
@@ -17,7 +18,8 @@
       background-color: rgba(0, 0, 0, 0.5);
     }
 
-    #modal {
+    #modal,
+    #edit-modal {
       display: none;
       position: fixed;
       top: 50%;
@@ -65,33 +67,27 @@
     </div>
   </div>
 
-  <!-- <div id="modal-overlay">
+  <div id="edit-modal-overlay">
     <div id="edit-modal">
       <label for="title">Title:</label>
       <input type="text" id="title">
       <br>
       <label for="dueDay">Day:</label>
-      <select id="dueDay">
-        <option value="">Day</option>
-      </select>
+      <select id="dueDay"></select>
       <br>
-      <label for="dueMonth">Month:</label>
-      <select id="dueMonth">
-        <option value="">Month</option>
-      </select>
+      <label for="edit-dueMonth">Month:</label>
+      <select id="edit-dueMonth"></select>
       <br>
-      <label for="dueYear">Year:</label>
-      <select id="dueYear">
-        <option value="">Year</option>
-      </select>
+      <label for="edit-dueYear">Year:</label>
+      <select id="edit-dueYear"></select>
       <br>
-      <label for="description">Description:</label>
-      <textarea id="description"></textarea>
+      <label for="edit-description">Description:</label>
+      <textarea id="edit-description"></textarea>
       <br>
-      <button id="saveButton">Save</button>
-      <button id="markCompleteButton">Mark As Complete</button>
-      <button id="cancelButton">Cancel</button>
-    </div> -->
+      <button id="updateButton">Update</button>
+      <button id="edit-markCompleteButton">Mark As Complete</button>
+      <button id="edit-cancelButton">Cancel</button>
+    </div>
   </div>
   
   <script>
@@ -266,7 +262,9 @@
       const dueMonthSelect = document.getElementById('dueMonth');
       const dueYearSelect = document.getElementById('dueYear');
       const descriptionTextarea = document.getElementById('description');
-      const saveButton = document.getElementById('saveButton');
+      const updateButton = document.getElementById('updateButton');
+      const editModalOverlay = document.getElementById('edit-modal-overlay');
+      const editModal = document.getElementById('edit-modal');
 
       // Populate the modal with todo data
       titleInput.value = todo.title;
@@ -275,11 +273,12 @@
       dueYearSelect.value = todo.year;
       descriptionTextarea.value = todo.description;
 
-      modalOverlay.style.display = 'block';
-      modal.style.display = 'block';
+      editModalOverlay.style.display = 'block';
+      editModal.style.display = 'block';
 
-      // Update todo on save button click
-      saveButton.addEventListener('click', function() {
+
+      // Update todo on update button click
+      updateButton.addEventListener('click', function() {
         const updatedTitle = titleInput.value.trim();
         if (updatedTitle.length < 3) {
           alert('Title must be at least 3 characters long.');
@@ -301,8 +300,14 @@
 
         updateTodoItem(todo.id, updatedTodo);
       });
-    }
 
+      // Cancel update modal
+      const editCancelButton = document.getElementById('edit-cancelButton');
+      editCancelButton.addEventListener('click', function() {
+        editModalOverlay.style.display = 'none';
+        editModal.style.display = 'none';
+      });
+    }
 
     // Function to convert month index to name
     function convertMonthIndexToName(monthIndex) {
@@ -312,7 +317,6 @@
       ];
       return months[parseInt(monthIndex) - 1];
     }
-
 
     // Generate options for day dropdown
     const dueDaySelect = document.getElementById('dueDay');

@@ -58,13 +58,14 @@
   <script>
 
   // Reload webpage to go home
-  const reloadLinks = document.getElementsByClassName("reloadLink");
-  for (let i = 0; i < reloadLinks.length; i++) {
-    reloadLinks[i].addEventListener("click", function(event) {
+  const reloadLinks = document.querySelectorAll(".reloadLink");
+  reloadLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
       event.preventDefault();
       location.reload();
     });
-  }
+  });
+
 
   // Function to retrieve and display todos
   function fetchTodos() {

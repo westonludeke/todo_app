@@ -107,6 +107,10 @@ p#addTodo {
   border-radius: 3px;
 }
 
+.todo:hover {
+  background-color: lightgray;
+}
+
 .todo button {
   background-color: #f44336;
   color: #fff;

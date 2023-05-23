@@ -114,8 +114,8 @@
     });
   }
 
-  // Function to display todos on the webpage
-  function displayTodos(todos) {
+  // Sort todos
+  function sortTodos(todos){
     // Sort todos based on completion status
     todos.sort(function(a, b) {
       // Move completed todos to the bottom
@@ -129,6 +129,12 @@
       // Maintain order for todos with the same completion status
       return 0;
     });
+    return todos;
+  }
+
+  // Function to display todos on the webpage
+  function displayTodos(todos) {
+    todos = sortTodos(todos);    
 
     const todoList = document.createElement('ul');
     todoList.setAttribute('id', 'todosList');

@@ -127,6 +127,13 @@
     return todos;
   }
 
+  function createCheckbox(listItem) {
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.classList.add('todo-checkbox');
+    return checkbox;
+  }
+
   // Function to display todos on the webpage
   function displayTodos(todos) {
     todos = sortTodos(todos);    
@@ -148,10 +155,7 @@
       }
 
       // Create the checkbox element
-      const checkbox = document.createElement('input');
-      checkbox.setAttribute('type', 'checkbox');
-      checkbox.classList.add('todo-checkbox');
-
+      let checkbox = createCheckbox();
       listItem.appendChild(checkbox);
 
       // Create the todo text span

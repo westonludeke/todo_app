@@ -73,13 +73,13 @@
   <div id="sidebar">
     <h2>Todo Lists</h2>
     <ul>
-      <li id="allTodos"><a href="#" class="active">All Todos</a></li>
+      <li id="allTodos"><a href="#" class="active reloadLink">All Todos</a></li>
       <li id="completedTodos">Completed Todos</li>
     </ul>
   </div>
 
   <div id="content">
-    <h1><a href="#">Todo App</a></h1>
+    <h1><a href="#" class="reloadLink">Todo App</a></h1>
     <h3 id="listHeader">All Todos - </h3>
     
     <p id="addTodo" style="cursor: pointer; text-decoration: underline;">+ Add new todo</p>
@@ -117,6 +117,15 @@
   </div>
 
   <script>
+
+  // Reload webpage to go home
+  const reloadLinks = document.getElementsByClassName("reloadLink");
+  for (let i = 0; i < reloadLinks.length; i++) {
+    reloadLinks[i].addEventListener("click", function(event) {
+      event.preventDefault();
+      location.reload();
+    });
+  }
 
   // Function to retrieve and display todos
   function fetchTodos() {

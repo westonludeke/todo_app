@@ -76,7 +76,7 @@ function fetchTodos() {
       if (xhr.status === 200) {
         const todos = JSON.parse(xhr.responseText);
         displayTodos(todos);
-        displayTodoCount(todos); 
+        displayTodoCount(todos);
       } else {
         alert('Failed to fetch todos.');
       }
@@ -221,8 +221,6 @@ function displayTodos(todos) {
 
   const addTodo = document.getElementById('addTodo');
   addTodo.parentNode.insertBefore(todoList, addTodo.nextSibling);
-
-  displayTodoCount(todos);
 }
 
 

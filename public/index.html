@@ -116,16 +116,11 @@
 
   // Sort todos
   function sortTodos(todos){
-    // Sort todos based on completion status
     todos.sort(function(a, b) {
       // Move completed todos to the bottom
-      if (a.completed && !b.completed) {
-        return 1;
-      }
+      if (a.completed && !b.completed) { return 1 };
       // Move incomplete todos to the top
-      if (!a.completed && b.completed) {
-        return -1;
-      }
+      if (!a.completed && b.completed) { return -1 };
       // Maintain order for todos with the same completion status
       return 0;
     });

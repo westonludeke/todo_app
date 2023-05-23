@@ -127,7 +127,6 @@ function sortTodos(todos){
 }
 
 function createCheckbox(todo) {
-  console.log('todo: ', todo);
   const checkbox = document.createElement('input');
   checkbox.setAttribute('type', 'checkbox');
   checkbox.classList.add('todo-checkbox');
@@ -135,14 +134,9 @@ function createCheckbox(todo) {
 
   checkbox.addEventListener('click', function(event) {
     event.stopPropagation();
-
-    const updatedTodo = {
-      completed: !todo.completed
-    };
-
+    const updatedTodo = { completed: !todo.completed };
     updateTodoItem(todo.id, updatedTodo);
   });
-
   return checkbox;
 }
 

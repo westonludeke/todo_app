@@ -134,6 +134,16 @@
     return checkbox;
   }
 
+  function createDeleteButton(todo){
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Add the trash can icon
+    deleteButton.addEventListener('click', function () {
+      event.stopPropagation();
+      deleteTodoItem(todo.id);
+    });
+    return deleteButton;
+  }
+
   // Function to display todos on the webpage
   function displayTodos(todos) {
     todos = sortTodos(todos);    
@@ -173,12 +183,8 @@
       // Add 'todo' class to the todo item
       listItem.classList.add('todo');
 
-      const deleteButton = document.createElement('button');
-      deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Add the trash can icon
-      deleteButton.addEventListener('click', function () {
-        event.stopPropagation();
-        deleteTodoItem(todo.id);
-      });
+      // create delete button with trashcan icon
+      let deleteButton = createDeleteButton(todo);
 
       // Add click event listener to open modal with todo details
       listItem.addEventListener('click', function () {

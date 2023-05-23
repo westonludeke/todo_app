@@ -12,8 +12,8 @@
   <div id="sidebar">
     <h2>Todo Lists</h2>
     <ul>
-      <h4 id="allTodos"><a href="#" class="active reloadLink">All Todos</a></h4>
-      <h4 id="completedTodos">Completed Todos</h4>
+      <h4 id="allTodos"><a href="#" class="active reloadLink">All Todos - <span id="allTodosCount"></span></a></h4>
+      <h4 id="completedTodos">Completed Todos - <span id="completedTodosCount"></span></h4>
     </ul>
   </div>
 
@@ -76,6 +76,7 @@ function fetchTodos() {
       if (xhr.status === 200) {
         const todos = JSON.parse(xhr.responseText);
         displayTodos(todos);
+        displayTodoCount(todos); 
       } else {
         alert('Failed to fetch todos.');
       }
@@ -97,6 +98,7 @@ function fetchFilteredTodos() {
         });
         clearTodos();
         displayTodos(filteredTodos);
+        displayTodoCount(filteredTodos);
       } else {
         alert('Failed to fetch todos.');
       }
@@ -156,6 +158,15 @@ function displayTodoCount(todos){
   const todoHeader = document.querySelector('h3');
   todoHeader.appendChild(document.createTextNode(' '));
   todoHeader.appendChild(todoCount);
+  ///
+  const allTodosCount = document.getElementById('allTodosCount');
+  const completedTodosCount = document.getElementById('completedTodosCount');
+
+  const allTodos = todos.length;
+  const completedTodos = todos.filter(todo => todo.completed).length;
+
+  allTodosCount.textContent = allTodos;
+  completedTodosCount.textContent = completedTodos;
 }
 
 function displayTodos(todos) {

@@ -144,6 +144,14 @@
     return deleteButton;
   }
 
+  function displayTodoCount(todos){
+    const todoCount = document.createElement('span');
+    todoCount.textContent = todos.length;
+    const todoHeader = document.querySelector('h3');
+    todoHeader.appendChild(document.createTextNode(' '));
+    todoHeader.appendChild(todoCount);
+  }
+
   // Function to display todos on the webpage
   function displayTodos(todos) {
     todos = sortTodos(todos);    
@@ -198,11 +206,7 @@
     const addTodo = document.getElementById('addTodo');
     addTodo.parentNode.insertBefore(todoList, addTodo.nextSibling);
 
-    const todoCount = document.createElement('span');
-    todoCount.textContent = todos.length;
-    const todoHeader = document.querySelector('h3');
-    todoHeader.appendChild(document.createTextNode(' '));
-    todoHeader.appendChild(todoCount);
+    displayTodoCount(todos);
   }
 
 

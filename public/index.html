@@ -75,8 +75,9 @@ function fetchTodos() {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         const todos = JSON.parse(xhr.responseText);
+        const allTodosLength = todos.length;
         displayTodos(todos);
-        displayTodoCount(todos);
+        displayTodoCount(todos, allTodosLength);
       } else {
         alert('Failed to fetch todos.');
       }
@@ -93,12 +94,13 @@ function fetchFilteredTodos() {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         const todos = JSON.parse(xhr.responseText);
+        const allTodosLength = todos.length;
         const filteredTodos = todos.filter(function(todo) {
           return todo.completed === true;
         });
         clearTodos();
         displayTodos(filteredTodos);
-        displayTodoCount(filteredTodos);
+        displayTodoCount(filteredTodos, allTodosLength);
       } else {
         alert('Failed to fetch todos.');
       }
@@ -152,20 +154,18 @@ function createDeleteButton(todo){
   return deleteButton;
 }
 
-function displayTodoCount(todos){
+function displayTodoCount(todos, allTodosLength){
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
   const todoHeader = document.querySelector('h3');
   todoHeader.appendChild(document.createTextNode(' '));
   todoHeader.appendChild(todoCount);
-  ///
+
   const allTodosCount = document.getElementById('allTodosCount');
   const completedTodosCount = document.getElementById('completedTodosCount');
 
-  const allTodos = todos.length;
   const completedTodos = todos.filter(todo => todo.completed).length;
-
-  allTodosCount.textContent = allTodos;
+  allTodosCount.textContent = allTodosLength;
   completedTodosCount.textContent = completedTodos;
 }
 

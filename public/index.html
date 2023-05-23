@@ -145,11 +145,23 @@
         dueDate = 'No Due Date';
       }
 
-      listItem.textContent = `${title} - ${dueDate}`;
+      // Create the checkbox element
+      const checkbox = document.createElement('input');
+      checkbox.setAttribute('type', 'checkbox');
+      checkbox.classList.add('todo-checkbox');
+
+      listItem.appendChild(checkbox);
+
+      // Create the todo text span
+      const todoText = document.createElement('span');
+      todoText.classList.add('todo-text');
+      todoText.textContent = `${title} - ${dueDate}`;
+      listItem.appendChild(todoText);
 
       // Apply strikethrough if todo is completed
       if (todo.completed) {
         listItem.style.textDecoration = 'line-through';
+        checkbox.checked = true; // Check the checkbox for completed todos
       }
 
       // Add 'todo' class to the todo item
@@ -180,6 +192,7 @@
     todoHeader.appendChild(document.createTextNode(' '));
     todoHeader.appendChild(todoCount);
   }
+
 
   // Call the fetchTodos function when the webpage loads
   window.addEventListener('load', function() {

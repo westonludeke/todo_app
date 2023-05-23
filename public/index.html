@@ -172,8 +172,8 @@
     });
 
     const todoList = document.createElement('ul');
-    const ul = document.querySelector('ul');
-    ul.setAttribute('id', 'todoList');
+    todoList.setAttribute('id', 'allTodosList');
+
     todos.forEach(function (todo) {
       const listItem = document.createElement('li');
       const title = todo.title;

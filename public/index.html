@@ -79,7 +79,7 @@
   </div>
 
   <div id="content">
-    <h1>Todo App</h1>
+    <h1><a href="#">Todo App</a></h1>
     <h3 id="listHeader">All Todos - </h3>
     
     <p id="addTodo" style="cursor: pointer; text-decoration: underline;">+ Add new todo</p>
@@ -146,6 +146,7 @@
           const filteredTodos = todos.filter(function(todo) {
             return todo.completed === true;
           });
+          clearTodos();
           displayTodos(filteredTodos);
         } else {
           alert('Failed to fetch todos.');
@@ -153,6 +154,15 @@
       }
     };
     xhr.send();
+  }
+
+  // Funtion to hide existing todos on webpage
+  function clearTodos(){
+    const todoList = document.getElementById('todosList');
+    const liElements = todoList.querySelectorAll('li');
+    liElements.forEach(li => {
+      li.remove();
+    });
   }
 
   // Function to display todos on the webpage
@@ -172,7 +182,7 @@
     });
 
     const todoList = document.createElement('ul');
-    todoList.setAttribute('id', 'allTodosList');
+    todoList.setAttribute('id', 'todosList');
 
     todos.forEach(function (todo) {
       const listItem = document.createElement('li');

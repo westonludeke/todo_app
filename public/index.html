@@ -182,11 +182,8 @@ function displayTodos(todos) {
     const year = todo.year;
     let dueDate = '';
 
-    if (month && year) {
-      dueDate = `${month}/${year.slice(-2)}`;
-    } else {
-      dueDate = 'No Due Date';
-    }
+    if (month && year) { dueDate = `${month}/${year.slice(-2)}`} 
+    else { dueDate = 'No Due Date' };
 
     // Create the checkbox element
     let checkbox = createCheckbox(todo);
@@ -201,7 +198,7 @@ function displayTodos(todos) {
     // Apply strikethrough if todo is completed
     if (todo.completed) {
       listItem.style.textDecoration = 'line-through';
-      checkbox.checked = true; // Check the checkbox for completed todos
+      checkbox.checked = true;
     }
 
     // Add 'todo' class to the todo item
@@ -211,9 +208,7 @@ function displayTodos(todos) {
     let deleteButton = createDeleteButton(todo);
 
     // Add click event listener to open modal with todo details
-    todoText.addEventListener('click', function () {
-      openTodoModal(todo);
-    });
+    todoText.addEventListener('click', function () { openTodoModal(todo) });
 
     listItem.appendChild(deleteButton);
     todoList.appendChild(listItem);

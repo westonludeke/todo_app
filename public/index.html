@@ -313,7 +313,7 @@ newSaveButton.addEventListener('click', function() {
     if (xhr.readyState === 4) {
       if (xhr.status === 201) {
         const response = JSON.parse(xhr.responseText);
-        alert('Todo saved successfully:\n' + JSON.stringify(response));
+        alert('Todo saved successfully!');
         modalOverlay.style.display = 'none';
         modal.style.display = 'none';
         // Refresh page after adding new todo

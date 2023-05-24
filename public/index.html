@@ -54,8 +54,7 @@
       </div>
     </div>
   </div>
-
-  <script>
+<script>
 
 // Reload webpage to go home
 const reloadLinks = document.querySelectorAll(".reloadLink");
@@ -66,8 +65,7 @@ reloadLinks.forEach((link) => {
   });
 });
 
-
-// Function to retrieve and display todos
+// Function to retrieve and display all todos
 function fetchTodos() {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'http://localhost:3000/api/todos', true);
@@ -113,7 +111,6 @@ function fetchFilteredTodos() {
   xhr.send();
 }
 
-// Funtion to hide existing todos on webpage
 function clearTodos(){
   const todoList = document.getElementById('todosList');
   const liElements = todoList.querySelectorAll('li');
@@ -210,10 +207,7 @@ function displayTodos(todos) {
       checkbox.checked = true;
     }
 
-    // Add 'todo' class to the todo item
     listItem.classList.add('todo');
-
-    // create delete button with trashcan icon
     let deleteButton = createDeleteButton(todo);
 
     // Add click event listener to open modal with todo details
@@ -452,7 +446,6 @@ newSaveButton.addEventListener('click', function() {
   xhr.send(JSON.stringify(todoData));
 });
 
-// Function to update a todo item
 function updateTodoItem(todoId, updatedTodo) {
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);
@@ -471,7 +464,6 @@ function updateTodoItem(todoId, updatedTodo) {
   xhr.send(JSON.stringify(updatedTodo));
 }
 
-// Function to open the modal with todo details
 function openTodoModal(todo) {
   const titleInput = document.getElementById('title');
   const dueDaySelect = document.getElementById('dueDay');

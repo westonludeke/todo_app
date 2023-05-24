@@ -79,6 +79,7 @@ function fetchTodos() {
         displayTodos(todos);
         displayTodoCount(todos, allTodosLength);
         createSublists(todos);
+        createCompletedSublists(todos);
       } else {
         alert('Failed to fetch todos.');
       }
@@ -103,6 +104,7 @@ function fetchFilteredTodos() {
         displayTodos(filteredTodos);
         displayTodoCount(filteredTodos, allTodosLength);
         createSublists(filteredTodos);
+        createCompletedSublists(todos);
       } else {
         alert('Failed to fetch todos.');
       }
@@ -241,7 +243,6 @@ function createSublists(todos) {
   console.log('sublists: ', sublists);
   displaySublistsOnSidebar(sublists);
   displaySublistsOnContent(sublists);
-  return sublists;
 }
 
 function displaySublistsOnSidebar(sublists) {
@@ -268,6 +269,59 @@ function displaySublistsOnContent(sublists) {
 
   sublistItems.forEach(function(sublistItem) {
     sublistItem.addEventListener('click', function() {
+      const selectedSublist = sublistItem.textContent;
+      const todos = sublists[selectedSublist];
+      clearTodos();
+      displayTodos(todos);
+    });
+  });
+}
+
+// group completed todos by mm/yy combination
+function createCompletedSublists(todos) {
+  const sublists = {};
+
+  todos.forEach(function (todo) {
+    if (todo.completed) {
+      const month = todo.month;
+      const year = todo.year;
+      const dueDate = month && year ? `${month}/${year.slice(-2)}` : 'No Due Date';
+
+      if (!sublists[dueDate]) { sublists[dueDate] = []; }
+      sublists[dueDate].push(todo);
+    }
+  });
+
+  console.log('completed sublists: ', sublists);
+  displayCompletedSublistsOnSidebar(sublists);
+  displayCompletedSublistsOnContent(sublists);
+  return sublists;
+}
+
+function displayCompletedSublistsOnSidebar(sublists) {
+  const sidebar = document.getElementById('sidebar');
+  const completedTodosLabel = sidebar.querySelector('#completedTodos');
+
+  // Clear existing completed sublists
+  const existingSublists = sidebar.querySelectorAll('.completed-sublist');
+  existingSublists.forEach((sublist) => { sublist.remove(); });
+
+  // Display completed sublists
+  for (const sublistKey in sublists) {
+    const sublist = sublists[sublistKey];
+    const sublistItem = document.createElement('h6');
+    sublistItem.textContent = sublistKey;
+    sublistItem.classList.add('completed-sublist');
+    completedTodosLabel.parentNode.insertBefore(sublistItem, completedTodosLabel.nextSibling);
+  }
+}
+
+function displayCompletedSublistsOnContent(sublists) {
+  const sidebar = document.getElementById('sidebar');
+  const sublistItems = sidebar.querySelectorAll('.completed-sublist');
+
+  sublistItems.forEach(function (sublistItem) {
+    sublistItem.addEventListener('click', function () {
       const selectedSublist = sublistItem.textContent;
       const todos = sublists[selectedSublist];
       clearTodos();

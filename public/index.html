@@ -101,8 +101,6 @@ function fetchFilteredTodos() {
         clearTodos();
         displayTodos(filteredTodos);
         displayTodoCount(filteredTodos, allTodosLength);
-        createSublists(filteredTodos);
-        createCompletedSublists(filteredTodos);
       } else {
         alert('Failed to fetch todos.');
       }

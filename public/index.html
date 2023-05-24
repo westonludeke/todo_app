@@ -104,7 +104,7 @@ function fetchFilteredTodos() {
         displayTodos(filteredTodos);
         displayTodoCount(filteredTodos, allTodosLength);
         createSublists(filteredTodos);
-        createCompletedSublists(todos);
+        createCompletedSublists(filteredTodos);
       } else {
         alert('Failed to fetch todos.');
       }
@@ -239,8 +239,6 @@ function createSublists(todos) {
     if (!sublists[dueDate]) {sublists[dueDate] = []};
     sublists[dueDate].push(todo);
   });
-
-  console.log('sublists: ', sublists);
   displaySublistsOnSidebar(sublists);
   displaySublistsOnContent(sublists);
 }
@@ -262,12 +260,13 @@ function displaySublistsOnSidebar(sublists) {
     const dateB = new Date(Number(yearB), Number(monthB) - 1, 1);
     return dateB - dateA;
   });
+  console.log('orderedSublists: ', orderedSublists);
 
   // Display sublists
   orderedSublists.forEach((sublistKey) => {
     const sublist = sublists[sublistKey];
     const sublistItem = document.createElement('h6');
-    sublistItem.textContent = sublistKey;
+    sublistItem.textContent = `${sublistKey} - ${sublist.length}`;
     sublistItem.classList.add('sublist');
     allTodosLabel.parentNode.insertBefore(sublistItem, allTodosLabel.nextSibling);
   });
@@ -279,7 +278,8 @@ function displaySublistsOnContent(sublists) {
 
   sublistItems.forEach(function(sublistItem) {
     sublistItem.addEventListener('click', function() {
-      const selectedSublist = sublistItem.textContent;
+      const parts = sublistItem.textContent.split('-');
+      const selectedSublist = parts[0].trim();
       const todos = sublists[selectedSublist];
       clearTodos();
       displayTodos(todos);
@@ -301,8 +301,6 @@ function createCompletedSublists(todos) {
       sublists[dueDate].push(todo);
     }
   });
-
-  console.log('completed sublists: ', sublists);
   displayCompletedSublistsOnSidebar(sublists);
   displayCompletedSublistsOnContent(sublists);
   return sublists;
@@ -330,7 +328,7 @@ function displayCompletedSublistsOnSidebar(sublists) {
   orderedSublists.forEach((sublistKey) => {
     const sublist = sublists[sublistKey];
     const sublistItem = document.createElement('h6');
-    sublistItem.textContent = sublistKey;
+    sublistItem.textContent = `${sublistKey} - ${sublist.length}`;
     sublistItem.classList.add('completed-sublist');
     completedTodosLabel.parentNode.insertBefore(sublistItem, completedTodosLabel.nextSibling);
   });
@@ -342,7 +340,8 @@ function displayCompletedSublistsOnContent(sublists) {
 
   sublistItems.forEach(function (sublistItem) {
     sublistItem.addEventListener('click', function () {
-      const selectedSublist = sublistItem.textContent;
+      const parts = sublistItem.textContent.split('-');
+      const selectedSublist = parts[0].trim();
       const todos = sublists[selectedSublist];
       clearTodos();
       displayTodos(todos);

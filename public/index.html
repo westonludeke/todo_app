@@ -239,6 +239,41 @@ function createSublists(todos) {
   });
 
   console.log('sublists: ', sublists);
+  displaySublistsOnSidebar(sublists);
+  displaySublistsOnContent(sublists);
+  return sublists;
+}
+
+function displaySublistsOnSidebar(sublists) {
+  const sidebar = document.getElementById('sidebar');
+  const allTodosLabel = sidebar.querySelector('h4');
+
+  // Clear existing sublists
+  const existingSublists = sidebar.querySelectorAll('.sublist');
+  existingSublists.forEach((sublist) => { sublist.remove() });
+
+  // Display sublists
+  for (const sublistKey in sublists) {
+    const sublist = sublists[sublistKey];
+    const sublistItem = document.createElement('h6');
+    sublistItem.textContent = sublistKey;
+    sublistItem.classList.add('sublist');
+    allTodosLabel.parentNode.insertBefore(sublistItem, allTodosLabel.nextSibling);
+  }
+}
+
+function displaySublistsOnContent(sublists) {
+  const sidebar = document.getElementById('sidebar');
+  const sublistItems = sidebar.querySelectorAll('.sublist');
+
+  sublistItems.forEach(function(sublistItem) {
+    sublistItem.addEventListener('click', function() {
+      const selectedSublist = sublistItem.textContent;
+      const todos = sublists[selectedSublist];
+      clearTodos();
+      displayTodos(todos);
+    });
+  });
 }
 
 // Function to delete a todo item

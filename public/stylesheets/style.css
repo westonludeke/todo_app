@@ -32,6 +32,10 @@ h1 a {
   text-decoration: none;
 }
 
+h6 {
+  font-weight: normal;
+}
+
 p#addTodo {
   margin-top: 10px;
 }

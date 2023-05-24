@@ -358,7 +358,6 @@ function displayCompletedSublistsOnContent(sublists) {
 
 // Function to delete a todo item
 function deleteTodoItem(todoId) {
-  console.log('Deleting todo with ID:', todoId);
   const xhr = new XMLHttpRequest();
   xhr.open('DELETE', `http://localhost:3000/api/todos/${todoId}`, true);
   xhr.onreadystatechange = function () {
@@ -455,7 +454,6 @@ newSaveButton.addEventListener('click', function() {
 
 // Function to update a todo item
 function updateTodoItem(todoId, updatedTodo) {
-  console.log('Updating todo with ID:', todoId);
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);
   xhr.setRequestHeader('Content-Type', 'application/json');

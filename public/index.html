@@ -253,14 +253,24 @@ function displaySublistsOnSidebar(sublists) {
   const existingSublists = sidebar.querySelectorAll('.sublist');
   existingSublists.forEach((sublist) => { sublist.remove() });
 
+  // Order sublists by month/year combination
+  const orderedSublists = Object.keys(sublists).sort((a, b) => {
+    if (a === 'No Due Date') return 1; // 'No Due Date' sublist should always be at the top
+    const [monthA, yearA] = a.split('/');
+    const [monthB, yearB] = b.split('/');
+    const dateA = new Date(Number(yearA), Number(monthA) - 1, 1);
+    const dateB = new Date(Number(yearB), Number(monthB) - 1, 1);
+    return dateB - dateA;
+  });
+
   // Display sublists
-  for (const sublistKey in sublists) {
+  orderedSublists.forEach((sublistKey) => {
     const sublist = sublists[sublistKey];
     const sublistItem = document.createElement('h6');
     sublistItem.textContent = sublistKey;
     sublistItem.classList.add('sublist');
     allTodosLabel.parentNode.insertBefore(sublistItem, allTodosLabel.nextSibling);
-  }
+  });
 }
 
 function displaySublistsOnContent(sublists) {
@@ -306,14 +316,24 @@ function displayCompletedSublistsOnSidebar(sublists) {
   const existingSublists = sidebar.querySelectorAll('.completed-sublist');
   existingSublists.forEach((sublist) => { sublist.remove(); });
 
+   // Order sublists by month/year combination
+  const orderedSublists = Object.keys(sublists).sort((a, b) => {
+    if (a === 'No Due Date') return 1; // 'No Due Date' sublist should always be at the top
+    const [monthA, yearA] = a.split('/');
+    const [monthB, yearB] = b.split('/');
+    const dateA = new Date(Number(yearA), Number(monthA) - 1, 1);
+    const dateB = new Date(Number(yearB), Number(monthB) - 1, 1);
+    return dateB - dateA;
+  });
+
   // Display completed sublists
-  for (const sublistKey in sublists) {
+  orderedSublists.forEach((sublistKey) => {
     const sublist = sublists[sublistKey];
     const sublistItem = document.createElement('h6');
     sublistItem.textContent = sublistKey;
     sublistItem.classList.add('completed-sublist');
     completedTodosLabel.parentNode.insertBefore(sublistItem, completedTodosLabel.nextSibling);
-  }
+  });
 }
 
 function displayCompletedSublistsOnContent(sublists) {

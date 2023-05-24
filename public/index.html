@@ -166,8 +166,8 @@ function displayTodoCount(todos, allTodosLength){
   const completedTodosCount = document.getElementById('completedTodosCount');
 
   const completedTodos = todos.filter(todo => todo.completed).length;
-  allTodosCount.textContent = allTodosLength;
-  completedTodosCount.textContent = completedTodos;
+  allTodosCount.textContent = `(${allTodosLength})`;
+  completedTodosCount.textContent = `(${completedTodos})`;
 }
 
 function displayTodos(todos) {
@@ -267,7 +267,7 @@ function displaySublistsOnSidebar(sublists) {
   orderedSublists.forEach((sublistKey) => {
     const sublist = sublists[sublistKey];
     const sublistItem = document.createElement('h6');
-    sublistItem.textContent = `${sublistKey} - ${sublist.length}`;
+    sublistItem.textContent = `${sublistKey} - (${sublist.length})`;
     sublistItem.classList.add('sublist');
     allTodosLabel.parentNode.insertBefore(sublistItem, allTodosLabel.nextSibling);
   });
@@ -329,7 +329,7 @@ function displayCompletedSublistsOnSidebar(sublists) {
   orderedSublists.forEach((sublistKey) => {
     const sublist = sublists[sublistKey];
     const sublistItem = document.createElement('h6');
-    sublistItem.textContent = `${sublistKey} - ${sublist.length}`;
+    sublistItem.textContent = `${sublistKey} - (${sublist.length})`;
     sublistItem.classList.add('completed-sublist');
     completedTodosLabel.parentNode.insertBefore(sublistItem, completedTodosLabel.nextSibling);
   });

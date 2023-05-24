@@ -186,8 +186,13 @@ function displayTodos(todos) {
     const year = todo.year;
     let dueDate = '';
 
-    if (month && year) { dueDate = `${month}/${year.slice(-2)}`} 
-    else { dueDate = 'No Due Date' };
+    if (month === '00' || month === '') {
+      dueDate = 'No Due Date';
+    } else if (year === '') {
+      dueDate = `No Due Date`;
+    } else {
+      dueDate = `${month}/${year.slice(-2)}`;
+    }
 
     // Create the checkbox element
     let checkbox = createCheckbox(todo);
@@ -260,7 +265,6 @@ function displaySublistsOnSidebar(sublists) {
     const dateB = new Date(Number(yearB), Number(monthB) - 1, 1);
     return dateB - dateA;
   });
-  console.log('orderedSublists: ', orderedSublists);
 
   // Display sublists
   orderedSublists.forEach((sublistKey) => {

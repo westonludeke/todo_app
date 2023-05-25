@@ -176,8 +176,11 @@ function displayTodoCount(todos, allTodosLength){
   completedTodosCount.textContent = `(${completedTodos})`;
 }
 
+let currentTodoSubset = [];
+
 function displayTodos(todos) {
-  todos = sortTodos(todos);    
+  todos = sortTodos(todos);
+  currentTodoSubset = todos; 
 
   const todoList = document.createElement('ul');
   todoList.setAttribute('id', 'todosList');
@@ -469,18 +472,41 @@ function updateTodoItem(todoId, updatedTodo) {
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
-        alert('Todo updated successfully.');
-        // Refresh page after update
-        location.reload();
+        const updatedObj = JSON.parse(xhr.responseText);
+        const updatedArr = fetchUpdates(currentTodoSubset, updatedObj, todoId);
       } else {
         alert('Failed to update todo.');
       }
     }
   };
   xhr.send(JSON.stringify(updatedTodo));
+}
+
+// Function to fetch updates and update the array
+function fetchUpdates(arr, updatedObj, todoId) {
+  let updatedArr = [];
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `http://localhost:3000/api/todos/${todoId}`, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        const updatedTodo = JSON.parse(xhr.responseText);
+        updatedArr = arr.filter(todo => todo.id !== todoId);
+        updatedArr.push(updatedTodo);
+        clearTodos();
+        displayTodos(updatedArr);
+        // createSublists(updatedArr);
+        // createCompletedSublists(updatedArr);
+      } else {
+        alert('Failed to fetch updates.');
+      }
+    }
+  };
+  xhr.send();
 }
 
 function openTodoModal(todo) {

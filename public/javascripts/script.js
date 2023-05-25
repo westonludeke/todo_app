@@ -224,8 +224,16 @@ function displaySublistsOnContent(sublists) {
       const todos = sublists[selectedSublist];
       clearTodos();
       displayTodos(todos);
+
+      const todoCount = todos.length;
+      displaySublistNameInListHeader(selectedSublist, todoCount);
     });
   });
+}
+
+function displaySublistNameInListHeader(sublistName, todoCount) {
+  const listHeader = document.querySelector('h3');
+  listHeader.textContent = `${sublistName} - ${todoCount}`;
 }
 
 // group completed todos by mm/yy combination
@@ -286,6 +294,9 @@ function displayCompletedSublistsOnContent(sublists) {
       const todos = sublists[selectedSublist];
       clearTodos();
       displayTodos(todos);
+
+      const todoCount = todos.length;
+      displaySublistNameInListHeader(selectedSublist, todoCount);
     });
   });
 }

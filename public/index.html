@@ -392,7 +392,6 @@ function deleteTodoItem(todoId, todos) {
   xhr.send();
 }
 
-
 // Show modal when "+ Add new todo" is clicked
 const addTodo = document.getElementById('addTodo');
 const modalOverlay = document.getElementById('modal-overlay');
@@ -425,7 +424,6 @@ addTodo.addEventListener('click', function() {
 cancelButton.addEventListener('click', function() {
   modalOverlay.style.display = 'none';
   modal.style.display = 'none';
-  location.reload();
 });
 
 newSaveButton.addEventListener('click', function() {

@@ -95,6 +95,15 @@ function createDeleteButton(todo){
   return deleteButton;
 }
 
+function clickTodoBoxChangeStatus(todo, listItem) {
+  listItem.addEventListener('click', function (event) {
+    if (event.target.tagName !== 'SPAN' && event.target.tagName !== 'BUTTON') {
+      const updatedTodo = { completed: !todo.completed };
+      updateTodoItem(todo.id, updatedTodo);
+    }
+  });
+}
+
 function displayTodoCount(todos, allTodosLength){
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
@@ -152,6 +161,8 @@ function displayTodos(todos) {
 
     // Add click event listener to open modal with todo details
     todoText.addEventListener('click', function () { openTodoModal(todo) });
+
+    clickTodoBoxChangeStatus(todo, listItem);
 
     listItem.appendChild(deleteButton);
     todoList.appendChild(listItem);

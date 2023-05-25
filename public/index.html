@@ -142,12 +142,12 @@ function createCheckbox(todo) {
   return checkbox;
 }
 
-function createDeleteButton(todo){
+function createDeleteButton(todo, todos){
   const deleteButton = document.createElement('button');
   deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Add the trash can icon
   deleteButton.addEventListener('click', function () {
     event.stopPropagation();
-    deleteTodoItem(todo.id);
+    deleteTodoItem(todo.id, todos);
   });
   return deleteButton;
 }
@@ -217,7 +217,7 @@ function displayTodos(todos) {
     }
 
     listItem.classList.add('todo');
-    let deleteButton = createDeleteButton(todo);
+    let deleteButton = createDeleteButton(todo, todos);
 
     // Add click event listener to open modal with todo details
     todoText.addEventListener('click', function () { openTodoModal(todo) });
@@ -373,15 +373,17 @@ function displayCompletedSublistsOnContent(sublists) {
 }
 
 // Function to delete a todo item
-function deleteTodoItem(todoId) {
+function deleteTodoItem(todoId, todos) {
   const xhr = new XMLHttpRequest();
   xhr.open('DELETE', `http://localhost:3000/api/todos/${todoId}`, true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       if (xhr.status === 204) {
         alert('Todo deleted successfully.');
-        // Refresh page after deletion
-        location.reload();
+        // Remove the deleted todo from the todos array
+        const updatedTodos = todos.filter(todo => todo.id !== todoId);
+        clearTodos();
+        displayTodos(updatedTodos);
       } else {
         alert('Failed to delete todo.');
       }
@@ -389,6 +391,7 @@ function deleteTodoItem(todoId) {
   };
   xhr.send();
 }
+
 
 // Show modal when "+ Add new todo" is clicked
 const addTodo = document.getElementById('addTodo');

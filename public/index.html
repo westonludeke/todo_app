@@ -151,6 +151,26 @@ function createDeleteButton(todo, todos){
   return deleteButton;
 }
 
+// Function to delete a todo item
+function deleteTodoItem(todoId, todos) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('DELETE', `http://localhost:3000/api/todos/${todoId}`, true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 204) {
+        alert('Todo deleted successfully.');
+        // Remove the deleted todo from the todos array
+        const updatedTodos = todos.filter(todo => todo.id !== todoId);
+        clearTodos();
+        displayTodos(updatedTodos);
+      } else {
+        alert('Failed to delete todo.');
+      }
+    }
+  };
+  xhr.send();
+}
+
 function clickTodoBoxChangeStatus(todo, listItem) {
   listItem.addEventListener('click', function (event) {
     if (event.target.tagName !== 'SPAN' && event.target.tagName !== 'BUTTON') {
@@ -369,26 +389,6 @@ function displayCompletedSublistsOnContent(sublists) {
       displaySublistNameInListHeader(selectedSublist, todoCount);
     });
   });
-}
-
-// Function to delete a todo item
-function deleteTodoItem(todoId, todos) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('DELETE', `http://localhost:3000/api/todos/${todoId}`, true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 204) {
-        alert('Todo deleted successfully.');
-        // Remove the deleted todo from the todos array
-        const updatedTodos = todos.filter(todo => todo.id !== todoId);
-        clearTodos();
-        displayTodos(updatedTodos);
-      } else {
-        alert('Failed to delete todo.');
-      }
-    }
-  };
-  xhr.send();
 }
 
 // Show modal when "+ Add new todo" is clicked

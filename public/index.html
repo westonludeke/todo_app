@@ -86,7 +86,7 @@ function fetchTodos() {
 }
 
 // Function to fetch and display only completed todos
-function fetchFilteredTodos() {
+function fetchCompletedTodos() {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'http://localhost:3000/api/todos', true);
   xhr.onreadystatechange = function() {
@@ -116,13 +116,11 @@ function clearTodos(){
   });
 }
 
+// Move completed todos to bottom of Content section
 function sortTodos(todos){
   todos.sort(function(a, b) {
-    // Move completed todos to the bottom
     if (a.completed && !b.completed) { return 1 };
-    // Move incomplete todos to the top
     if (!a.completed && b.completed) { return -1 };
-    // Maintain order for todos with the same completion status
     return 0;
   });
   return todos;
@@ -142,6 +140,7 @@ function createCheckbox(todo) {
   return checkbox;
 }
 
+// Adds trashcan to each todo box
 function createDeleteButton(todo, todos){
   const deleteButton = document.createElement('button');
   deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Add the trash can icon
@@ -593,7 +592,7 @@ const todosHeader = document.getElementById('listHeader');
 completedTodosList.addEventListener('click', function() {
   // Change the header text to 'Completed Todos'
   todosHeader.textContent = 'Completed Todos - ';
-  fetchFilteredTodos();
+  fetchCompletedTodos();
 });
 
 // Function to convert month index to name

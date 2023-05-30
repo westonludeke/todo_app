@@ -181,7 +181,8 @@ function clickTodoBoxChangeStatus(todo, listItem) {
 }
 
 function displayTodoCount(todos, allTodosLength) {
-  // console.log('**displayTodoCount**');
+  console.log('**displayTodoCount**');
+  console.log('todos: ', todos);
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
 
@@ -189,20 +190,21 @@ function displayTodoCount(todos, allTodosLength) {
   const existingSpan = todoHeader.querySelector('span');
   const existingCount = /(\s-\s)\d+$/.exec(todoHeader.textContent);
 
-  if (existingSpan){ todosHeader.removeChild(existingSpan) };
+  if (existingSpan) { todosHeader.removeChild(existingSpan) };
   if (existingCount) { todoHeader.textContent = todoHeader.textContent.replace(existingCount[0], '') };
 
   todoHeader.appendChild(document.createTextNode(' '));
   todoHeader.appendChild(todoCount);
-
-  const allTodosCount = document.getElementById('allTodosCount');
-  const completedTodosCount = document.getElementById('completedTodosCount');
-
-  const completedTodos = todos.filter(todo => todo.completed).length;
-  allTodosCount.textContent = `(${allTodosLength})`;
-  completedTodosCount.textContent = `(${completedTodos})`;
 }
 
+// function displayTodoCountOnSidebar(todos){
+//   const allTodosCount = document.getElementById('allTodosCount');
+//   const completedTodosCount = document.getElementById('completedTodosCount');
+
+//   const completedTodos = todos.filter(todo => todo.completed).length;
+//   allTodosCount.textContent = `(${allTodosLength})`;
+//   completedTodosCount.textContent = `(${completedTodos})`;
+// }
 
 let currentTodoSubset = [];
 
@@ -517,7 +519,8 @@ function fetchUpdates(arr, updatedObj, todoId) {
         updatedArr.push(updatedTodo);
         clearTodos();
         displayTodos(updatedArr);
-        displayTodoCount(updatedArr, updatedArr.length);
+        console.log('updatedArr inside of fetchUpdates: ', updatedArr)
+        // displayTodoCount(updatedArr, updatedArr.length);
         fetchUpdatesForSidebar();
       } else {
         alert('Failed to fetch updates.');
@@ -537,6 +540,11 @@ function fetchUpdatesForSidebar() {
         const allTodosLength = todos.length;
         createSublists(todos);
         createCompletedSublists(todos);
+        const allTodosCount = document.getElementById('allTodosCount');
+        const completedTodosCount = document.getElementById('completedTodosCount');
+        const completedTodos = todos.filter(todo => todo.completed).length;
+        allTodosCount.textContent = `(${allTodosLength})`;
+        completedTodosCount.textContent = `(${completedTodos})`;
       } else {
         alert('Failed to fetch sidebar updates.');
       }

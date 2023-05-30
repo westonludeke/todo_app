@@ -258,6 +258,7 @@ window.addEventListener('load', function() {
 
 // group todos by mm/yy combination
 function createSublists(todos) {
+  console.log('createSublists');
   const sublists = {};
 
   todos.forEach(function (todo) {
@@ -276,6 +277,7 @@ function createSublists(todos) {
 }
 
 function displaySublistsOnSidebar(sublists) {
+  console.log('displaySublistsOnSidebar');
   const sidebar = document.getElementById('sidebar');
   const allTodosLabel = sidebar.querySelector('h4');
 
@@ -304,6 +306,7 @@ function displaySublistsOnSidebar(sublists) {
 }
 
 function displaySublistsOnContent(sublists) {
+  console.log('displaySublistsOnContent');
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.sublist');
 
@@ -322,12 +325,14 @@ function displaySublistsOnContent(sublists) {
 }
 
 function displaySublistNameInListHeader(sublistName, todoCount) {
+  console.log('displaySublistNameInListHeader');
   const listHeader = document.querySelector('h3');
   listHeader.textContent = `${sublistName} - ${todoCount}`;
 }
 
 // group completed todos by mm/yy combination
 function createCompletedSublists(todos) {
+  console.log('createCompletedSublists');
   const sublists = {};
 
   todos.forEach(function (todo) {
@@ -346,6 +351,7 @@ function createCompletedSublists(todos) {
 }
 
 function displayCompletedSublistsOnSidebar(sublists) {
+  console.log('displayCompletedSublistsOnSidebar');
   const sidebar = document.getElementById('sidebar');
   const completedTodosLabel = sidebar.querySelector('#completedTodos');
 
@@ -374,6 +380,7 @@ function displayCompletedSublistsOnSidebar(sublists) {
 }
 
 function displayCompletedSublistsOnContent(sublists) {
+  console.log('displayCompletedSublistsOnContent');
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.completed-sublist');
 
@@ -499,10 +506,28 @@ function fetchUpdates(arr, updatedObj, todoId) {
         updatedArr.push(updatedTodo);
         clearTodos();
         displayTodos(updatedArr);
-        // createSublists(updatedArr);
-        // createCompletedSublists(updatedArr);
+        displayTodoCount(updatedArr, updatedArr.length);
+        fetchUpdatesForSidebar();
       } else {
         alert('Failed to fetch updates.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+function fetchUpdatesForSidebar() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://localhost:3000/api/todos', true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        const todos = JSON.parse(xhr.responseText);
+        const allTodosLength = todos.length;
+        createSublists(todos);
+        createCompletedSublists(todos);
+      } else {
+        alert('Failed to fetch sidebar updates.');
       }
     }
   };

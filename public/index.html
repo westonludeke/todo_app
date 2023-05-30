@@ -181,14 +181,13 @@ function clickTodoBoxChangeStatus(todo, listItem) {
 }
 
 function displayTodoCount(todos, allTodosLength) {
-  console.log('**displayTodoCount**');
+  // console.log('**displayTodoCount**');
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
 
   const todoHeader = document.querySelector('#listHeader');
   const existingSpan = todoHeader.querySelector('span');
   const existingCount = /(\s-\s)\d+$/.exec(todoHeader.textContent);
-  console.log('existingCount: ', existingCount);
 
   if (existingSpan){ todosHeader.removeChild(existingSpan) };
   if (existingCount) { todoHeader.textContent = todoHeader.textContent.replace(existingCount[0], '') };
@@ -268,7 +267,7 @@ window.addEventListener('load', function() {
 
 // group todos by mm/yy combination
 function createSublists(todos) {
-  console.log('createSublists');
+  // console.log('createSublists');
   const sublists = {};
 
   todos.forEach(function (todo) {
@@ -287,7 +286,7 @@ function createSublists(todos) {
 }
 
 function displaySublistsOnSidebar(sublists) {
-  console.log('displaySublistsOnSidebar');
+  // console.log('displaySublistsOnSidebar');
   const sidebar = document.getElementById('sidebar');
   const allTodosLabel = sidebar.querySelector('h4');
 
@@ -316,7 +315,7 @@ function displaySublistsOnSidebar(sublists) {
 }
 
 function displaySublistsOnContent(sublists) {
-  console.log('displaySublistsOnContent');
+  // console.log('displaySublistsOnContent');
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.sublist');
 
@@ -335,15 +334,15 @@ function displaySublistsOnContent(sublists) {
 }
 
 function displaySublistNameInListHeader(sublistName, todoCount) {
-  console.log('displaySublistNameInListHeader');
+  // console.log('displaySublistNameInListHeader');
   const listHeader = document.querySelector('h3');
   listHeader.textContent = `${sublistName} ${todoCount}`;
-  console.log('---');
+  // console.log('---');
 }
 
 // group completed todos by mm/yy combination
 function createCompletedSublists(todos) {
-  console.log('createCompletedSublists');
+  // console.log('createCompletedSublists');
   const sublists = {};
 
   todos.forEach(function (todo) {
@@ -362,7 +361,7 @@ function createCompletedSublists(todos) {
 }
 
 function displayCompletedSublistsOnSidebar(sublists) {
-  console.log('displayCompletedSublistsOnSidebar');
+  // console.log('displayCompletedSublistsOnSidebar');
   const sidebar = document.getElementById('sidebar');
   const completedTodosLabel = sidebar.querySelector('#completedTodos');
 
@@ -391,7 +390,7 @@ function displayCompletedSublistsOnSidebar(sublists) {
 }
 
 function displayCompletedSublistsOnContent(sublists) {
-  console.log('displayCompletedSublistsOnContent');
+  // console.log('displayCompletedSublistsOnContent');
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.completed-sublist');
 

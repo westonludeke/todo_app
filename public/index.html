@@ -442,6 +442,7 @@ cancelButton.addEventListener('click', function() {
   modal.style.display = 'none';
 });
 
+// Add a new todo by clicking '+ Add new todo' button
 newSaveButton.addEventListener('click', function() {
   const title = document.getElementById('title').value.trim();
   if (title.length < 3) {

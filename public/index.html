@@ -19,7 +19,7 @@
 
   <div id="content">
     <h1><a href="#" class="reloadLink">Todo App</a></h1>
-    <h3 id="listHeader">All Todos - </h3>
+    <h3 id="listHeader">All Todos</h3>
     
     <p id="addTodo" style="cursor: pointer; text-decoration: underline;">+ Add new todo</p>
     
@@ -180,10 +180,19 @@ function clickTodoBoxChangeStatus(todo, listItem) {
   });
 }
 
-function displayTodoCount(todos, allTodosLength){
+function displayTodoCount(todos, allTodosLength) {
+  console.log('**displayTodoCount**');
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
-  const todoHeader = document.querySelector('h3');
+
+  const todoHeader = document.querySelector('#listHeader');
+  const existingSpan = todoHeader.querySelector('span');
+  const existingCount = /(\s-\s)\d+$/.exec(todoHeader.textContent);
+  console.log('existingCount: ', existingCount);
+
+  if (existingSpan){ todosHeader.removeChild(existingSpan) };
+  if (existingCount) { todoHeader.textContent = todoHeader.textContent.replace(existingCount[0], '') };
+
   todoHeader.appendChild(document.createTextNode(' '));
   todoHeader.appendChild(todoCount);
 
@@ -194,6 +203,7 @@ function displayTodoCount(todos, allTodosLength){
   allTodosCount.textContent = `(${allTodosLength})`;
   completedTodosCount.textContent = `(${completedTodos})`;
 }
+
 
 let currentTodoSubset = [];
 
@@ -327,7 +337,8 @@ function displaySublistsOnContent(sublists) {
 function displaySublistNameInListHeader(sublistName, todoCount) {
   console.log('displaySublistNameInListHeader');
   const listHeader = document.querySelector('h3');
-  listHeader.textContent = `${sublistName} - ${todoCount}`;
+  listHeader.textContent = `${sublistName} ${todoCount}`;
+  console.log('---');
 }
 
 // group completed todos by mm/yy combination
@@ -616,7 +627,7 @@ const todosHeader = document.getElementById('listHeader');
 // Add click event listener to the 'Completed Todos' list item
 completedTodosList.addEventListener('click', function() {
   // Change the header text to 'Completed Todos'
-  todosHeader.textContent = 'Completed Todos - ';
+  todosHeader.textContent = 'Completed Todos ';
   fetchCompletedTodos();
 });
 

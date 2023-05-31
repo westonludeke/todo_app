@@ -165,7 +165,7 @@ function deleteTodoItem(todoId, todos) {
         clearTodos();
         displayTodos(updatedTodos);
         fetchUpdatesForSidebar();
-        displayTodoCountOnListHeader(updatedTodos, updatedTodos.length); // <-- add in the 
+        displayTodoCountOnListHeader(updatedTodos, updatedTodos.length);
       } else {
         alert('Failed to delete todo.');
       }
@@ -185,17 +185,20 @@ function clickTodoBoxChangeStatus(todo, listItem) {
 
 function displayTodoCountOnListHeader(todos, allTodosLength) {
   console.log('displayTodoCountOnListHeader');
+  console.log('todos: ', todos);
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
 
   const todoHeader = document.querySelector('#listHeader');
   const existingSpan = todoHeader.querySelector('span');
-  const existingCount = /(\s-\s)\d+$/.exec(todoHeader.textContent);
 
-  if (existingSpan) { todosHeader.removeChild(existingSpan) };
-  if (existingCount) { todoHeader.textContent = todoHeader.textContent.replace(existingCount[0], '') };
+  console.log('todoHeader: ', todoHeader);
+  if (existingSpan) { 
+    todosHeader.removeChild(existingSpan);
+    todoHeader.textContent = todoHeader.textContent.replace(' - ', '');
+  };
 
-  todoHeader.appendChild(document.createTextNode(' '));
+  todoHeader.appendChild(document.createTextNode(' - '));
   todoHeader.appendChild(todoCount);
 }
 
@@ -332,7 +335,7 @@ function displaySublistNameInListHeader(sublistName, todoCount) {
   const listHeader = document.querySelector('h3');
   const spanElement = document.createElement('span');
   spanElement.textContent = todoCount;
-  listHeader.innerHTML = `${sublistName} `;
+  listHeader.innerHTML = `${sublistName} - `;
   listHeader.appendChild(spanElement);
 }
 

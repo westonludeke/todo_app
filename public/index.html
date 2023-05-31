@@ -454,9 +454,10 @@ function addNewTodo() {
     if (xhr.readyState === 4) {
       if (xhr.status === 201) {
         const response = JSON.parse(xhr.responseText);
+        console.log('response: ', response);
         alert('Todo saved successfully!');
         hideModal();
-        fetchUpdatesForSidebar();
+        location.reload();
       } else {
         alert('Todo cannot be saved.');
       }

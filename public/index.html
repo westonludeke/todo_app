@@ -404,17 +404,15 @@ function displayCompletedSublistsOnContent(sublists) {
   });
 }
 
-// Show modal when "+ Add new todo" is clicked
-const addTodo = document.getElementById('addTodo');
-const modalOverlay = document.getElementById('modal-overlay');
-const modal = document.getElementById('modal');
-const cancelButton = document.getElementById('cancelButton');
-const newSaveButton = document.getElementById('new-saveButton');
+function showModal() {
+  modalOverlay.style.display = 'block';
+  modal.style.display = 'block';
+  clearModalFields();
+}
 
-// Close modal when click is outside
-window.onclick = function(event){
-  if (event.target === modalOverlay){ modalOverlay.style.display = 'none' };
-  if (event.target === modal){ modal.style.display = 'none'; };
+function hideModal() {
+  modalOverlay.style.display = 'none';
+  modal.style.display = 'none';
 }
 
 // Clear the input fields of the modal
@@ -426,30 +424,7 @@ function clearModalFields() {
   document.getElementById('description').value = '';
 }
 
-// Hide edit save button and display new save button
-const hideEditSaveButton = document.getElementById('edit-saveButton');
-hideEditSaveButton.style.display = "none";
-const showNewSaveButton = document.getElementById('new-saveButton');
-showNewSaveButton.style.display = "block";
-// Hide Mark As Complete and Mark As Incomplete buttons
-const hideMarkCompleteButton = document.getElementById('markCompleteButton');
-hideMarkCompleteButton.style.display = "none";
-const hideMarkIncompleteButton = document.getElementById('markIncompleteButton');
-hideMarkIncompleteButton.style.display = "none";
-
-addTodo.addEventListener('click', function() {
-  modalOverlay.style.display = 'block';
-  modal.style.display = 'block';
-  clearModalFields();
-});
-
-cancelButton.addEventListener('click', function() {
-  modalOverlay.style.display = 'none';
-  modal.style.display = 'none';
-});
-
-// Add a new todo by clicking '+ Add new todo' button
-newSaveButton.addEventListener('click', function() {
+function addNewTodo() {
   const title = document.getElementById('title').value.trim();
   if (title.length < 3) {
     alert('Title must be at least 3 characters long.');
@@ -480,8 +455,7 @@ newSaveButton.addEventListener('click', function() {
       if (xhr.status === 201) {
         const response = JSON.parse(xhr.responseText);
         alert('Todo saved successfully!');
-        modalOverlay.style.display = 'none';
-        modal.style.display = 'none';
+        hideModal();
         fetchUpdatesForSidebar();
       } else {
         alert('Todo cannot be saved.');
@@ -489,7 +463,35 @@ newSaveButton.addEventListener('click', function() {
     }
   };
   xhr.send(JSON.stringify(todoData));
-});
+}
+
+// Show modal when "+ Add new todo" is clicked
+const addTodo = document.getElementById('addTodo');
+const modalOverlay = document.getElementById('modal-overlay');
+const modal = document.getElementById('modal');
+const cancelButton = document.getElementById('cancelButton');
+const newSaveButton = document.getElementById('new-saveButton');
+
+// Hide edit save button and display new save button
+const hideEditSaveButton = document.getElementById('edit-saveButton');
+hideEditSaveButton.style.display = "none";
+const showNewSaveButton = document.getElementById('new-saveButton');
+showNewSaveButton.style.display = "block";
+// Hide Mark As Complete and Mark As Incomplete buttons
+const hideMarkCompleteButton = document.getElementById('markCompleteButton');
+hideMarkCompleteButton.style.display = "none";
+const hideMarkIncompleteButton = document.getElementById('markIncompleteButton');
+hideMarkIncompleteButton.style.display = "none";
+
+addTodo.addEventListener('click', showModal);
+cancelButton.addEventListener('click', hideModal);
+newSaveButton.addEventListener('click', addNewTodo);
+
+// Close modal when click is outside
+window.onclick = function(event){
+  if (event.target === modalOverlay){ modalOverlay.style.display = 'none' };
+  if (event.target === modal){ modal.style.display = 'none'; };
+}
 
 function updateTodoItem(todoId, updatedTodo) {
   const xhr = new XMLHttpRequest();

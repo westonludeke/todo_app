@@ -77,6 +77,7 @@ function fetchTodos() {
         displayTodoCountOnListHeader(todos, allTodosLength);
         createSublists(todos);
         createCompletedSublists(todos);
+        fetchUpdatesForSidebar();
       } else {
         alert('Failed to fetch todos.');
       }
@@ -163,6 +164,7 @@ function deleteTodoItem(todoId, todos) {
         const updatedTodos = todos.filter(todo => todo.id !== todoId);
         clearTodos();
         displayTodos(updatedTodos);
+        fetchUpdatesForSidebar();
       } else {
         alert('Failed to delete todo.');
       }
@@ -467,8 +469,7 @@ newSaveButton.addEventListener('click', function() {
         alert('Todo saved successfully!');
         modalOverlay.style.display = 'none';
         modal.style.display = 'none';
-        // Refresh page after adding new todo
-        location.reload();
+        fetchUpdatesForSidebar();
       } else {
         alert('Todo cannot be saved.');
       }

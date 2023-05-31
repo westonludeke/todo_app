@@ -165,6 +165,7 @@ function deleteTodoItem(todoId, todos) {
         clearTodos();
         displayTodos(updatedTodos);
         fetchUpdatesForSidebar();
+        displayTodoCountOnListHeader(updatedTodos, updatedTodos.length); // <-- add in the 
       } else {
         alert('Failed to delete todo.');
       }
@@ -183,6 +184,7 @@ function clickTodoBoxChangeStatus(todo, listItem) {
 }
 
 function displayTodoCountOnListHeader(todos, allTodosLength) {
+  console.log('displayTodoCountOnListHeader');
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
 
@@ -327,10 +329,11 @@ function displaySublistsOnContent(sublists) {
 }
 
 function displaySublistNameInListHeader(sublistName, todoCount) {
-  // console.log('displaySublistNameInListHeader');
   const listHeader = document.querySelector('h3');
-  listHeader.textContent = `${sublistName} ${todoCount}`;
-  // console.log('---');
+  const spanElement = document.createElement('span');
+  spanElement.textContent = todoCount;
+  listHeader.innerHTML = `${sublistName} `;
+  listHeader.appendChild(spanElement);
 }
 
 // group completed todos by mm/yy combination

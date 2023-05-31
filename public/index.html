@@ -74,7 +74,7 @@ function fetchTodos() {
         const todos = JSON.parse(xhr.responseText);
         const allTodosLength = todos.length;
         displayTodos(todos);
-        displayTodoCount(todos, allTodosLength);
+        displayTodoCountOnListHeader(todos, allTodosLength);
         createSublists(todos);
         createCompletedSublists(todos);
       } else {
@@ -99,7 +99,7 @@ function fetchCompletedTodos() {
         });
         clearTodos();
         displayTodos(filteredTodos);
-        displayTodoCount(filteredTodos, allTodosLength);
+        displayTodoCountOnListHeader(filteredTodos, allTodosLength);
       } else {
         alert('Failed to fetch todos.');
       }
@@ -180,9 +180,7 @@ function clickTodoBoxChangeStatus(todo, listItem) {
   });
 }
 
-function displayTodoCount(todos, allTodosLength) {
-  console.log('**displayTodoCount**');
-  console.log('todos: ', todos);
+function displayTodoCountOnListHeader(todos, allTodosLength) {
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
 
@@ -196,15 +194,6 @@ function displayTodoCount(todos, allTodosLength) {
   todoHeader.appendChild(document.createTextNode(' '));
   todoHeader.appendChild(todoCount);
 }
-
-// function displayTodoCountOnSidebar(todos){
-//   const allTodosCount = document.getElementById('allTodosCount');
-//   const completedTodosCount = document.getElementById('completedTodosCount');
-
-//   const completedTodos = todos.filter(todo => todo.completed).length;
-//   allTodosCount.textContent = `(${allTodosLength})`;
-//   completedTodosCount.textContent = `(${completedTodos})`;
-// }
 
 let currentTodoSubset = [];
 
@@ -520,7 +509,6 @@ function fetchUpdates(arr, updatedObj, todoId) {
         clearTodos();
         displayTodos(updatedArr);
         console.log('updatedArr inside of fetchUpdates: ', updatedArr)
-        // displayTodoCount(updatedArr, updatedArr.length);
         fetchUpdatesForSidebar();
       } else {
         alert('Failed to fetch updates.');

@@ -184,15 +184,12 @@ function clickTodoBoxChangeStatus(todo, listItem) {
 }
 
 function displayTodoCountOnListHeader(todos, allTodosLength) {
-  console.log('displayTodoCountOnListHeader');
-  console.log('todos: ', todos);
   const todoCount = document.createElement('span');
   todoCount.textContent = todos.length;
 
   const todoHeader = document.querySelector('#listHeader');
   const existingSpan = todoHeader.querySelector('span');
 
-  console.log('todoHeader: ', todoHeader);
   if (existingSpan) { 
     todosHeader.removeChild(existingSpan);
     todoHeader.textContent = todoHeader.textContent.replace(' - ', '');
@@ -420,6 +417,15 @@ window.onclick = function(event){
   if (event.target === modal){ modal.style.display = 'none'; };
 }
 
+// Clear the input fields of the modal
+function clearModalFields() {
+  document.getElementById('title').value = '';
+  document.getElementById('dueDay').selectedIndex = 0;
+  document.getElementById('dueMonth').selectedIndex = 0;
+  document.getElementById('dueYear').value = '';
+  document.getElementById('description').value = '';
+}
+
 // Hide edit save button and display new save button
 const hideEditSaveButton = document.getElementById('edit-saveButton');
 hideEditSaveButton.style.display = "none";
@@ -434,6 +440,7 @@ hideMarkIncompleteButton.style.display = "none";
 addTodo.addEventListener('click', function() {
   modalOverlay.style.display = 'block';
   modal.style.display = 'block';
+  clearModalFields();
 });
 
 cancelButton.addEventListener('click', function() {
@@ -515,7 +522,6 @@ function fetchUpdates(arr, updatedObj, todoId) {
         updatedArr.push(updatedTodo);
         clearTodos();
         displayTodos(updatedArr);
-        console.log('updatedArr inside of fetchUpdates: ', updatedArr)
         fetchUpdatesForSidebar();
       } else {
         alert('Failed to fetch updates.');

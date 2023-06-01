@@ -585,24 +585,22 @@ function openTodoModal(todo) {
   if (todo.completed === false){
     // Show Mark As Complete button
     const markCompleteButton = document.getElementById('markCompleteButton');
+    markIncompleteButton.style.display = "none";
     markCompleteButton.style.display = "block";
 
     // mark todo as complete
     markCompleteButton.addEventListener('click', function() {
-      const updatedTodo = {
-        completed: true
-      };
+      const updatedTodo = { completed: true };
       updateTodoItem(todo.id, updatedTodo);
     });
   } else {
     // Show Mark As Incomplete button
     const markIncompleteButton = document.getElementById('markIncompleteButton');
+    markCompleteButton.style.display = "none";
     markIncompleteButton.style.display = 'block';
     // mark todo as incomplete
     markIncompleteButton.addEventListener('click', function() {
-      const updatedTodo = {
-        completed: false
-      };
+      const updatedTodo = { completed: false };
       updateTodoItem(todo.id, updatedTodo);
     });
   }

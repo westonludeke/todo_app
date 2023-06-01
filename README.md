@@ -2,7 +2,7 @@
 
 ### Revision Notes
 
-* Fixed the issue of the modal displaying incorrect content.
+* Fixed the issue of the modal displaying incorrect content when clicking from the modal for editing a todo to the modal for adding a new todo.
 
 * Clicking on the area surrounding a todo's name toggles the todo as complete/incomplete.
 
@@ -11,6 +11,8 @@
 * When a todo is toggled/deleted, the currently selected todo group doesn't change
 
 * I had to use global variables in two locations, which I understand isn't ideal and should be avoided.
+
+* Javascript browser alerts are used to inform the user as to responses from the server. Not ideal and should be handled differently.
 
 
 ### Original Submission Notes

@@ -1,6 +1,19 @@
 # 239 Project
 
-### Notes
+### Revision Notes
+
+* Fixed the issue of the modal displaying incorrect content.
+
+* Clicking on the area surrounding a todo's name toggles the todo as complete/incomplete.
+
+* When updating a todo, the current todo sublist is maintained
+
+* When a todo is toggled/deleted, the currently selected todo group doesn't change
+
+* I had to use global variables in two locations, which I understand isn't ideal and should be avoided.
+
+
+### Original Submission Notes
 
 * I did almost 100% of the development of the Javascript code directly inside the `<script>` tags inside the HTML document. Then after finishing the coding process, I moved the JS code to the separate `script.js` file. Everything seems to still be working properly, but it's possible there still may be some edgecase issues as I ran out of time to do some more robust testing.
 

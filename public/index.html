@@ -175,6 +175,7 @@ function deleteTodoItem(todoId, todos) {
 }
 
 function clickTodoBoxChangeStatus(todo, listItem) {
+  // console.log('clickTodoBoxChangeStatus');
   listItem.addEventListener('click', function (event) {
     if (event.target.tagName !== 'SPAN' && event.target.tagName !== 'BUTTON') {
       const updatedTodo = { completed: !todo.completed };
@@ -202,6 +203,9 @@ function displayTodoCountOnListHeader(todos, allTodosLength) {
 let currentTodoSubset = [];
 
 function displayTodos(todos) {
+  console.log('displayTodos');
+  console.log('todos: ', todos);
+  console.log('-----');
   todos = sortTodos(todos);
   currentTodoSubset = todos; 
 
@@ -311,14 +315,17 @@ function displaySublistsOnSidebar(sublists) {
 
 function displaySublistsOnContent(sublists) {
   // console.log('displaySublistsOnContent');
+  // console.log('sublists: ', sublists);
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.sublist');
 
   sublistItems.forEach(function(sublistItem) {
     sublistItem.addEventListener('click', function() {
+      viewingCompletedSublist = false;
       const parts = sublistItem.textContent.split('-');
       const selectedSublist = parts[0].trim();
       const todos = sublists[selectedSublist];
+      console.log('click - displaySublistsOnContent');
       clearTodos();
       displayTodos(todos);
 
@@ -385,16 +392,21 @@ function displayCompletedSublistsOnSidebar(sublists) {
   });
 }
 
+let viewingCompletedSublist = false;
+
 function displayCompletedSublistsOnContent(sublists) {
-  // console.log('displayCompletedSublistsOnContent');
+  console.log('displayCompletedSublistsOnContent');
+  console.log('sublists: ', sublists);
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.completed-sublist');
 
   sublistItems.forEach(function (sublistItem) {
     sublistItem.addEventListener('click', function () {
+      viewingCompletedSublist = true;
       const parts = sublistItem.textContent.split('-');
       const selectedSublist = parts[0].trim();
       const todos = sublists[selectedSublist];
+      console.log('click - displayCompletedSublistsOnContent');
       clearTodos();
       displayTodos(todos);
 
@@ -495,6 +507,7 @@ window.onclick = function(event){
 }
 
 function updateTodoItem(todoId, updatedTodo) {
+  console.log('updateTodoItem');
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
@@ -502,7 +515,12 @@ function updateTodoItem(todoId, updatedTodo) {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         const updatedObj = JSON.parse(xhr.responseText);
-        const updatedArr = fetchUpdates(currentTodoSubset, updatedObj, todoId);
+
+        if (viewingCompletedSublist){
+          fetchUpdatesCompletedSublist(currentTodoSubset, todoId);
+        } else {
+          fetchUpdates(currentTodoSubset, updatedObj, todoId);  
+        }
       } else {
         alert('Failed to update todo.');
       }
@@ -513,6 +531,8 @@ function updateTodoItem(todoId, updatedTodo) {
 
 // Function to fetch updates and update the array
 function fetchUpdates(arr, updatedObj, todoId) {
+  console.log('fetchUpdates');
+  console.log('todoId: ', todoId);
   let updatedArr = [];
 
   const xhr = new XMLHttpRequest();
@@ -532,6 +552,15 @@ function fetchUpdates(arr, updatedObj, todoId) {
     }
   };
   xhr.send();
+}
+
+// Updates sublists containing only completed todos
+function fetchUpdatesCompletedSublist(currentTodoSubset, todoId){
+  let onlyCompletedTodos = currentTodoSubset.filter(obj => obj.id !== todoId);
+  clearTodos();
+  displayTodos(onlyCompletedTodos);
+  fetchUpdatesForSidebar();
+  displayTodoCountOnListHeader(onlyCompletedTodos, onlyCompletedTodos.length);
 }
 
 function fetchUpdatesForSidebar() {

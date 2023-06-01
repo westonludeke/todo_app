@@ -441,6 +441,7 @@ function updateTodoItem(todoId, updatedTodo) {
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
+        hideModal();
         const updatedObj = JSON.parse(xhr.responseText);
 
         if (viewingCompletedSublist){

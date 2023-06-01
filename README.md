@@ -12,7 +12,7 @@
 
 * I had to use global variables in two locations, which I understand isn't ideal and should be avoided.
 
-* Javascript browser alerts are used to inform the user as to responses from the server. Not ideal and should be handled differently.
+* Javascript browser alerts removed except to inform the user as to error responses from the server.
 
 
 ### Original Submission Notes

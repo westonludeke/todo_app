@@ -102,7 +102,6 @@ function deleteTodoItem(todoId, todos) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       if (xhr.status === 204) {
-        alert('Todo deleted successfully.');
         // Remove the deleted todo from the todos array
         const updatedTodos = todos.filter(todo => todo.id !== todoId);
         clearTodos();
@@ -417,7 +416,6 @@ function addNewTodo() {
     if (xhr.readyState === 4) {
       if (xhr.status === 201) {
         const response = JSON.parse(xhr.responseText);
-        alert('Todo saved successfully!');
         hideModal();
         location.reload();
       } else {

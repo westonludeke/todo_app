@@ -356,6 +356,28 @@ function hideModal() {
   modal.style.display = 'none';
 }
 
+// Show modal when "+ Add new todo" is clicked
+const addTodo = document.getElementById('addTodo');
+const modalOverlay = document.getElementById('modal-overlay');
+const modal = document.getElementById('modal');
+
+const cancelButton = document.getElementById('cancelButton');
+const newSaveButton = document.getElementById('new-saveButton');
+const hideEditSaveButton = document.getElementById('edit-saveButton');
+const showNewSaveButton = document.getElementById('new-saveButton');
+const hideMarkCompleteButton = document.getElementById('markCompleteButton');
+const hideMarkIncompleteButton = document.getElementById('markIncompleteButton');
+
+addTodo.addEventListener('click', function(){
+  showModal();
+  hideEditSaveButton.style.display = "none";
+  hideMarkCompleteButton.style.display = "none";
+  hideMarkIncompleteButton.style.display = "none";
+  showNewSaveButton.style.display = "block";
+});
+cancelButton.addEventListener('click', hideModal);
+newSaveButton.addEventListener('click', addNewTodo);
+
 // Clear the input fields of the modal
 function clearModalFields() {
   document.getElementById('title').value = '';
@@ -405,28 +427,6 @@ function addNewTodo() {
   };
   xhr.send(JSON.stringify(todoData));
 }
-
-// Show modal when "+ Add new todo" is clicked
-const addTodo = document.getElementById('addTodo');
-const modalOverlay = document.getElementById('modal-overlay');
-const modal = document.getElementById('modal');
-const cancelButton = document.getElementById('cancelButton');
-const newSaveButton = document.getElementById('new-saveButton');
-
-// Hide edit save button and display new save button
-const hideEditSaveButton = document.getElementById('edit-saveButton');
-hideEditSaveButton.style.display = "none";
-const showNewSaveButton = document.getElementById('new-saveButton');
-showNewSaveButton.style.display = "block";
-// Hide Mark As Complete and Mark As Incomplete buttons
-const hideMarkCompleteButton = document.getElementById('markCompleteButton');
-hideMarkCompleteButton.style.display = "none";
-const hideMarkIncompleteButton = document.getElementById('markIncompleteButton');
-hideMarkIncompleteButton.style.display = "none";
-
-addTodo.addEventListener('click', showModal);
-cancelButton.addEventListener('click', hideModal);
-newSaveButton.addEventListener('click', addNewTodo);
 
 // Close modal when click is outside
 window.onclick = function(event){

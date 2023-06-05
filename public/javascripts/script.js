@@ -437,6 +437,7 @@ window.onclick = function(event){
 }
 
 function updateTodoItem(todoId, updatedTodo) {
+  if (updatedTodo.month === '-1'){ updatedTodo.month = '00' };
   console.log('updatedTodo: ', updatedTodo);
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);

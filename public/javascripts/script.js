@@ -288,7 +288,7 @@ function createCompletedSublists(todos) {
     if (todo.completed) {
       const month = todo.month;
       const year = todo.year;
-      const dueDate = (month === '00' || year === '00') ? 'No Due Date' : (month && year) ? `${month}/${year.slice(-2)}` : 'No Due Date';
+      const dueDate = (month === '00' || year === '0000') ? 'No Due Date' : (month && year) ? `${month}/${year.slice(-2)}` : 'No Due Date';
 
       if (!sublists[dueDate]) { sublists[dueDate] = []; }
       sublists[dueDate].push(todo);

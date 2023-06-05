@@ -491,14 +491,12 @@ function displayUpdatesOnContent(updatedTodoList) {
   if (dateOfSublistBeingCurrentlyViewed === 'No Due Date') {
     filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === '00' || todo.month === '' || todo.year === '00' || todo.year === '');
   } else if (dateOfSublistBeingCurrentlyViewed.match(/^\d{2}\/\d{2}$/)) {
-    const [month, year] = dateOfSublistBeingCurrentlyViewed.split('/');
+    let [month, year] = dateOfSublistBeingCurrentlyViewed.split('/');
+    year = '20' + year;
     filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === month && todo.year === year);
-  } else {
-    console.error('Invalid date format');
-    return; // Return early if the date format is invalid
-  }
+  } 
 
-  console.log('filteredUpdatedTodoList: ', filteredUpdatedTodoList); // Use the filteredUpdatedTodoList as needed
+  console.log('filteredUpdatedTodoList: ', filteredUpdatedTodoList);
 }
 
 

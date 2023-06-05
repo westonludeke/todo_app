@@ -439,7 +439,6 @@ window.onclick = function(event){
 function updateTodoItem(todoId, updatedTodo) {
   if (updatedTodo.month === '-1' || updatedTodo.month === '') { updatedTodo.month = '00' };
   if (updatedTodo.year === '-1' || updatedTodo.year === '') { updatedTodo.year = '0000' };
-  console.log('updatedTodo: ', updatedTodo);
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
@@ -465,7 +464,6 @@ function fetchUpdates() {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         const updatedTodoList = JSON.parse(xhr.responseText);
-        console.log('updatedTodoList: ', updatedTodoList);
         displayUpdatesOnContent(updatedTodoList);
       } else {
         alert('Failed to fetch updates.');
@@ -475,6 +473,7 @@ function fetchUpdates() {
   xhr.send();
 }
 
+// filter entire todo list to display only the updated sublist on the content section
 function displayUpdatesOnContent(updatedTodoList) {
   let filteredUpdatedTodoList;
 
@@ -492,7 +491,6 @@ function displayUpdatesOnContent(updatedTodoList) {
     filteredUpdatedTodoList = filteredUpdatedTodoList.filter(todo => todo.completed === true);
   }
 
-  console.log('filteredUpdatedTodoList: ', filteredUpdatedTodoList);
   clearTodos();
   displayTodos(filteredUpdatedTodoList);
   fetchUpdatesForSidebar();

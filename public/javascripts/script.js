@@ -81,6 +81,7 @@ function createCheckbox(todo) {
   checkbox.addEventListener('click', function(event) {
     event.stopPropagation();
     const updatedTodo = { completed: !todo.completed };
+    console.log('checkbox event listener');
     updateTodoItem(todo.id, updatedTodo);
   });
   return checkbox;
@@ -122,6 +123,7 @@ function clickTodoBoxChangeStatus(todo, listItem) {
   listItem.addEventListener('click', function (event) {
     if (event.target.tagName !== 'SPAN' && event.target.tagName !== 'BUTTON') {
       const updatedTodo = { completed: !todo.completed };
+      console.log('clickTodoBoxChangeStatus event listener');
       updateTodoItem(todo.id, updatedTodo);
     }
   });
@@ -211,7 +213,7 @@ function createSublists(todos) {
   todos.forEach(function (todo) {
     const month = todo.month;
     const year = todo.year;
-    const dueDate = (month === '00' || year === '00') ? 'No Due Date' : (month && year) ? `${month}/${year.slice(-2)}` : 'No Due Date';
+    const dueDate = (month === '00' || year === '0000') ? 'No Due Date' : (month && year) ? `${month}/${year.slice(-2)}` : 'No Due Date';
 
     if (!sublists[dueDate]) {
       sublists[dueDate] = [];
@@ -379,7 +381,7 @@ addTodo.addEventListener('click', function(){
   showNewSaveButton.style.display = "block";
 });
 cancelButton.addEventListener('click', hideModal);
-newSaveButton.addEventListener('click', addNewTodo);
+newSaveButton.addEventListener('click', function() { addNewTodo() });
 
 // Clear the input fields of the modal
 function clearModalFields() {
@@ -437,6 +439,10 @@ window.onclick = function(event){
 }
 
 function updateTodoItem(todoId, updatedTodo) {
+  console.log('updateTodoItem invoked');
+  console.log('todoId: ', todoId);
+  console.log('updatedTodo: ', updatedTodo);
+  console.log('----');
   if (updatedTodo.month === '-1' || updatedTodo.month === '') { updatedTodo.month = '00' };
   if (updatedTodo.year === '-1' || updatedTodo.year === '') { updatedTodo.year = '0000' };
   const xhr = new XMLHttpRequest();
@@ -458,6 +464,7 @@ function updateTodoItem(todoId, updatedTodo) {
 
 // Function to fetch updated master todo list from the server
 function fetchUpdates() {
+  console.log('fetchUpdates invoked');
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `http://localhost:3000/api/todos`, true);
   xhr.onreadystatechange = function() {
@@ -521,6 +528,7 @@ function fetchUpdatesForSidebar() {
 }
 
 function openTodoModal(todo) {
+  console.log('openTodoModal todo: ', todo);
   const titleInput = document.getElementById('title');
   const dueDaySelect = document.getElementById('dueDay');
   const dueMonthSelect = document.getElementById('dueMonth');
@@ -531,8 +539,7 @@ function openTodoModal(todo) {
   // Hide new save button and show edit save button
   const hideNewSaveButton = document.getElementById('new-saveButton');
   hideNewSaveButton.style.display = "none";
-  const showEditSaveButton = document.getElementById('edit-saveButton');
-  showEditSaveButton.style.display = "block";
+  editSaveButton.style.display = "block";
 
   if (todo.completed === false){
     // Show Mark As Complete button
@@ -543,6 +550,7 @@ function openTodoModal(todo) {
     // mark todo as complete
     markCompleteButton.addEventListener('click', function() {
       const updatedTodo = { completed: true };
+      console.log('mark todo as complete');
       updateTodoItem(todo.id, updatedTodo);
     });
   } else {
@@ -553,6 +561,7 @@ function openTodoModal(todo) {
     // mark todo as incomplete
     markIncompleteButton.addEventListener('click', function() {
       const updatedTodo = { completed: false };
+      console.log('mark todo as incomplete');
       updateTodoItem(todo.id, updatedTodo);
     });
   }
@@ -568,7 +577,12 @@ function openTodoModal(todo) {
   modal.style.display = 'block';
 
   // Update todo on save button click
-  editSaveButton.addEventListener('click', function() {
+  console.log('Attaching editSaveButton event listener');
+  editSaveButton.addEventListener('click', handleEditSaveButtonClick);
+
+  // Define the event listener function inside openTodoModal
+  function handleEditSaveButtonClick() {
+    console.log('editSaveButton.addEventListener');
     const updatedTitle = titleInput.value.trim();
     if (updatedTitle.length < 3) {
       alert('Title must be at least 3 characters long.');
@@ -588,8 +602,13 @@ function openTodoModal(todo) {
       description: updatedDescription,
     };
 
+    console.log('update modal');
+    console.log('todo.id: ', todo.id);
     updateTodoItem(todo.id, updatedTodo);
-  });
+
+    // Remove the event listener
+    editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
+  }
 }
 
 // Get references to the required elements

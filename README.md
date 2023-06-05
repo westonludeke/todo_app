@@ -8,7 +8,10 @@ My functions to handle updates to an existing todo was too convoluted. The app w
 
 Instead, I decided it would be much easier to store the date logic (i.e. `02/23` or `No Due Date`, etc.) of the currently loaded sublist being viewed. Then, the app will fetch the entire todo list from the server after an update is made. After fetching the entire todo list, the code will then filter down the entire todo list to display the todos matching the current sublist's date logic.
 
-The result is a much more simplified `fetchUpdates` function as it simply retrieves all todos from the server after an update is made to an existing todo. Then, the new `displayUpdatesOnContent` function filters down the todo list retrieved from `fetchUpdates` to match the parameters of the todo sublist the user was originally viewing to display to the user only the todos in the currently viewed sublist, post-update. 
+The result is a much more simplified `fetchUpdates` function as it simply retrieves all todos from the server after an update is made to an existing todo. Then, the new `displayUpdatesOnContent` function filters down the todo list retrieved from `fetchUpdates` to match the parameters of the todo sublist the user was originally viewing to display to the user only the todos in the currently viewed sublist, post-update.
+
+Other small fixes include handling bugs that were occurring in instances where the user removes the month and/or year value from an existing todo.
+
 
 ### Revision #1 Notes
 

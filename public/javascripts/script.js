@@ -161,7 +161,7 @@ function displayTodos(todos) {
 
     if (month === '00' || month === '') {
       dueDate = 'No Due Date';
-    } else if (year === '') {
+    } else if (year === '' || year === '0000') {
       dueDate = `No Due Date`;
     } else {
       dueDate = `${month}/${year.slice(-2)}`;
@@ -437,7 +437,8 @@ window.onclick = function(event){
 }
 
 function updateTodoItem(todoId, updatedTodo) {
-  if (updatedTodo.month === '-1'){ updatedTodo.month = '00' };
+  if (updatedTodo.month === '-1' || updatedTodo.month === '') { updatedTodo.month = '00' };
+  if (updatedTodo.year === '-1' || updatedTodo.year === '') { updatedTodo.year = '0000' };
   console.log('updatedTodo: ', updatedTodo);
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);

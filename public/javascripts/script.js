@@ -474,9 +474,6 @@ function fetchUpdates() {
         const updatedTodoList = JSON.parse(xhr.responseText);
         console.log('updatedTodoList: ', updatedTodoList);
         displayUpdatesOnContent(updatedTodoList);
-        // clearTodos();
-        // displayTodos(updatedArr);
-        // fetchUpdatesForSidebar();
       } else {
         alert('Failed to fetch updates.');
       }
@@ -487,6 +484,7 @@ function fetchUpdates() {
 
 function displayUpdatesOnContent(updatedTodoList) {
   let filteredUpdatedTodoList;
+  console.log('displayUpdatesOnContent dateOfSublistBeingCurrentlyViewed: ', dateOfSublistBeingCurrentlyViewed);
 
   if (dateOfSublistBeingCurrentlyViewed === 'No Due Date') {
     filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === '00' || todo.month === '' || todo.year === '00' || todo.year === '');
@@ -494,6 +492,8 @@ function displayUpdatesOnContent(updatedTodoList) {
     let [month, year] = dateOfSublistBeingCurrentlyViewed.split('/');
     year = '20' + year;
     filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === month && todo.year === year);
+  } else if (dateOfSublistBeingCurrentlyViewed === ''){
+    filteredUpdatedTodoList = updatedTodoList;
   }
 
   if (viewingCompletedSublist){
@@ -501,16 +501,9 @@ function displayUpdatesOnContent(updatedTodoList) {
   }
 
   console.log('filteredUpdatedTodoList: ', filteredUpdatedTodoList);
-}
-
-
-// Updates sublists containing only completed todos
-function fetchUpdatesCompletedSublist(currentTodoSubset, todoId){
-  let onlyCompletedTodos = currentTodoSubset.filter(obj => obj.id !== todoId);
   clearTodos();
-  displayTodos(onlyCompletedTodos);
+  displayTodos(filteredUpdatedTodoList);
   fetchUpdatesForSidebar();
-  displayTodoCountOnListHeader(onlyCompletedTodos, onlyCompletedTodos.length);
 }
 
 function fetchUpdatesForSidebar() {

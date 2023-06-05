@@ -494,7 +494,11 @@ function displayUpdatesOnContent(updatedTodoList) {
     let [month, year] = dateOfSublistBeingCurrentlyViewed.split('/');
     year = '20' + year;
     filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === month && todo.year === year);
-  } 
+  }
+
+  if (viewingCompletedSublist){
+    filteredUpdatedTodoList = filteredUpdatedTodoList.filter(todo => todo.completed === true);
+  }
 
   console.log('filteredUpdatedTodoList: ', filteredUpdatedTodoList);
 }

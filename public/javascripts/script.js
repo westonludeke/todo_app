@@ -218,8 +218,6 @@ function createSublists(todos) {
     }
     sublists[dueDate].push(todo);
   });
-
-  // console.log('sublists: ', sublists);
   displaySublistsOnSidebar(sublists);
   displaySublistsOnContent(sublists);
 }
@@ -242,8 +240,6 @@ function displaySublistsOnSidebar(sublists) {
     return dateB - dateA;
   });
 
-  // console.log('orderedSublists: ', orderedSublists);
-
   // Display sublists
   orderedSublists.forEach((sublistKey) => {
     const sublist = sublists[sublistKey];
@@ -261,7 +257,6 @@ function displaySublistsOnContent(sublists) {
   sublistItems.forEach(function(sublistItem) {
     sublistItem.addEventListener('click', function() {
       dateOfSublistBeingCurrentlyViewed = sublistItem.textContent.split(' - ')[0];
-      console.log('dateOfSublistBeingCurrentlyViewed: ', dateOfSublistBeingCurrentlyViewed);
       viewingCompletedSublist = false;
       const parts = sublistItem.textContent.split('-');
       const selectedSublist = parts[0].trim();
@@ -340,7 +335,6 @@ function displayCompletedSublistsOnContent(sublists) {
   sublistItems.forEach(function (sublistItem) {
     sublistItem.addEventListener('click', function () {
       dateOfSublistBeingCurrentlyViewed = sublistItem.textContent.split(' - ')[0];
-      console.log('dateOfSublistBeingCurrentlyViewed: ', dateOfSublistBeingCurrentlyViewed);
       viewingCompletedSublist = true;
       const parts = sublistItem.textContent.split('-');
       const selectedSublist = parts[0].trim();
@@ -443,7 +437,7 @@ window.onclick = function(event){
 }
 
 function updateTodoItem(todoId, updatedTodo) {
-  // console.log('updateTodoItem');
+  console.log('updatedTodo: ', updatedTodo);
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', `http://localhost:3000/api/todos/${todoId}`, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
@@ -463,9 +457,6 @@ function updateTodoItem(todoId, updatedTodo) {
 
 // Function to fetch updated master todo list from the server
 function fetchUpdates() {
-  console.log('fetchUpdates dateOfSublistBeingCurrentlyViewed: ', dateOfSublistBeingCurrentlyViewed);
-  console.log('fetchUpdates viewingCompletedSublist: ', viewingCompletedSublist);
-
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `http://localhost:3000/api/todos`, true);
   xhr.onreadystatechange = function() {
@@ -484,7 +475,6 @@ function fetchUpdates() {
 
 function displayUpdatesOnContent(updatedTodoList) {
   let filteredUpdatedTodoList;
-  console.log('displayUpdatesOnContent dateOfSublistBeingCurrentlyViewed: ', dateOfSublistBeingCurrentlyViewed);
 
   if (dateOfSublistBeingCurrentlyViewed === 'No Due Date') {
     filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === '00' || todo.month === '' || todo.year === '00' || todo.year === '');
@@ -504,6 +494,7 @@ function displayUpdatesOnContent(updatedTodoList) {
   clearTodos();
   displayTodos(filteredUpdatedTodoList);
   fetchUpdatesForSidebar();
+  displayTodoCountOnListHeader(filteredUpdatedTodoList, filteredUpdatedTodoList.length);
 }
 
 function fetchUpdatesForSidebar() {

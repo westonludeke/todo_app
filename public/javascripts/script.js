@@ -152,6 +152,7 @@ let currentTodoSubset = [];
 function displayTodos(todos) {
   console.log('invoking - displayTodos');
   todos = sortTodos(todos);
+  console.log('todos: ', todos);
   currentTodoSubset = todos; 
 
   const todoList = document.createElement('ul');
@@ -478,6 +479,7 @@ function fetchUpdates() {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         const updatedTodoList = JSON.parse(xhr.responseText);
+        console.log('updatedTodoList: ', updatedTodoList);
         displayUpdatesOnContent(updatedTodoList);
       } else {
         alert('Failed to fetch updates.');
@@ -489,22 +491,27 @@ function fetchUpdates() {
 
 // filter entire todo list to display only the updated sublist on the content section
 function displayUpdatesOnContent(updatedTodoList) {
+  console.log('invoking - displayUpdatesOnContent');
+  console.log('updatedTodoList: ', updatedTodoList);
   let filteredUpdatedTodoList;
 
   if (dateOfSublistBeingCurrentlyViewed === 'No Due Date') {
-    filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === '00' || todo.month === '' || todo.year === '00' || todo.year === '');
+    console.log('viewing no due date');
+    filteredUpdatedTodoList = updatedTodoList.filter(todo => (todo.month === '00' || todo.month === '') || (todo.year === '0000' || todo.year === ''));
   } else if (dateOfSublistBeingCurrentlyViewed.match(/^\d{2}\/\d{2}$/)) {
     let [month, year] = dateOfSublistBeingCurrentlyViewed.split('/');
+    console.log(`viewing ${month}/${year}`);
     year = '20' + year;
     filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === month && todo.year === year);
   } else if (dateOfSublistBeingCurrentlyViewed === ''){
+    console.log("viewing '' ");
     filteredUpdatedTodoList = updatedTodoList;
   }
 
   if (viewingCompletedSublist){
     filteredUpdatedTodoList = filteredUpdatedTodoList.filter(todo => todo.completed === true);
   }
-
+  console.log('filteredUpdatedTodoList: ', filteredUpdatedTodoList);
   clearTodos();
   displayTodos(filteredUpdatedTodoList);
   fetchUpdatesForSidebar();

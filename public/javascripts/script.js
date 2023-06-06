@@ -9,7 +9,6 @@ reloadLinks.forEach((link) => {
 
 // Function to retrieve and display all todos
 function fetchTodos() {
-  console.log('invoking - fetchTodos');
   viewingCompletedSublist = false;
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'http://localhost:3000/api/todos', true);
@@ -20,8 +19,6 @@ function fetchTodos() {
         const allTodosLength = todos.length;
         displayTodos(todos);
         displayTodoCountOnListHeader(todos, allTodosLength);
-        // createSublists(todos);
-        // createCompletedSublists(todos);
         fetchUpdatesForSidebar();
       } else {
         alert('Failed to fetch todos.');
@@ -33,7 +30,6 @@ function fetchTodos() {
 
 // Function to fetch and display only completed todos
 function fetchCompletedTodos() {
-  console.log('invoking - fetchCompletedTodos');
   viewingCompletedSublist = true;
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'http://localhost:3000/api/todos', true);
@@ -83,7 +79,6 @@ function createCheckbox(todo) {
   checkbox.addEventListener('click', function(event) {
     event.stopPropagation();
     const updatedTodo = { completed: !todo.completed };
-    console.log('checkbox event listener');
     updateTodoItem(todo.id, updatedTodo);
   });
   return checkbox;
@@ -125,7 +120,6 @@ function clickTodoBoxChangeStatus(todo, listItem) {
   listItem.addEventListener('click', function (event) {
     if (event.target.tagName !== 'SPAN' && event.target.tagName !== 'BUTTON') {
       const updatedTodo = { completed: !todo.completed };
-      // console.log('clickTodoBoxChangeStatus event listener');
       updateTodoItem(todo.id, updatedTodo);
     }
   });
@@ -150,9 +144,7 @@ function displayTodoCountOnListHeader(todos, allTodosLength) {
 let currentTodoSubset = [];
 
 function displayTodos(todos) {
-  console.log('invoking - displayTodos');
   todos = sortTodos(todos);
-  console.log('todos: ', todos);
   currentTodoSubset = todos; 
 
   const todoList = document.createElement('ul');
@@ -257,8 +249,6 @@ function displaySublistsOnSidebar(sublists) {
 }
 
 function displaySublistsOnContent(sublists) {
-  console.log('invoking - displaySublistsOnContent');
-  console.log('sublists: ', sublists);
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.sublist');
 
@@ -337,8 +327,6 @@ let viewingCompletedSublist = false;
 let dateOfSublistBeingCurrentlyViewed = '';
 
 function displayCompletedSublistsOnContent(sublists) {
-  console.log('invoking - displayCompletedSublistsOnContent');
-  console.log('sublists: ', sublists);
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.completed-sublist');
 
@@ -447,10 +435,6 @@ window.onclick = function(event){
 }
 
 function updateTodoItem(todoId, updatedTodo) {
-  console.log('invoking - updateTodoItem');
-  console.log('todoId: ', todoId);
-  console.log('updatedTodo: ', updatedTodo);
-  console.log('----');
   if (updatedTodo.month === '-1' || updatedTodo.month === '') { updatedTodo.month = '00' };
   if (updatedTodo.year === '-1' || updatedTodo.year === '') { updatedTodo.year = '0000' };
   const xhr = new XMLHttpRequest();
@@ -472,14 +456,12 @@ function updateTodoItem(todoId, updatedTodo) {
 
 // Function to fetch updated master todo list from the server
 function fetchUpdates() {
-  console.log('invoking - fetchUpdates');
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `http://localhost:3000/api/todos`, true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         const updatedTodoList = JSON.parse(xhr.responseText);
-        console.log('updatedTodoList: ', updatedTodoList);
         displayUpdatesOnContent(updatedTodoList);
       } else {
         alert('Failed to fetch updates.');
@@ -491,27 +473,21 @@ function fetchUpdates() {
 
 // filter entire todo list to display only the updated sublist on the content section
 function displayUpdatesOnContent(updatedTodoList) {
-  console.log('invoking - displayUpdatesOnContent');
-  console.log('updatedTodoList: ', updatedTodoList);
   let filteredUpdatedTodoList;
 
   if (dateOfSublistBeingCurrentlyViewed === 'No Due Date') {
-    console.log('viewing no due date');
     filteredUpdatedTodoList = updatedTodoList.filter(todo => (todo.month === '00' || todo.month === '') || (todo.year === '0000' || todo.year === ''));
   } else if (dateOfSublistBeingCurrentlyViewed.match(/^\d{2}\/\d{2}$/)) {
     let [month, year] = dateOfSublistBeingCurrentlyViewed.split('/');
-    console.log(`viewing ${month}/${year}`);
     year = '20' + year;
     filteredUpdatedTodoList = updatedTodoList.filter(todo => todo.month === month && todo.year === year);
   } else if (dateOfSublistBeingCurrentlyViewed === ''){
-    console.log("viewing '' ");
     filteredUpdatedTodoList = updatedTodoList;
   }
 
   if (viewingCompletedSublist){
     filteredUpdatedTodoList = filteredUpdatedTodoList.filter(todo => todo.completed === true);
   }
-  console.log('filteredUpdatedTodoList: ', filteredUpdatedTodoList);
   clearTodos();
   displayTodos(filteredUpdatedTodoList);
   fetchUpdatesForSidebar();
@@ -519,7 +495,6 @@ function displayUpdatesOnContent(updatedTodoList) {
 }
 
 function fetchUpdatesForSidebar() {
-  console.log('invoking - fetchUpdatesForSidebar');
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'http://localhost:3000/api/todos', true);
   xhr.onreadystatechange = function() {
@@ -543,7 +518,6 @@ function fetchUpdatesForSidebar() {
 }
 
 function openTodoModal(todo) {
-  console.log('openTodoModal todo: ', todo);
   const titleInput = document.getElementById('title');
   const dueDaySelect = document.getElementById('dueDay');
   const dueMonthSelect = document.getElementById('dueMonth');
@@ -565,7 +539,6 @@ function openTodoModal(todo) {
     // mark todo as complete
     markCompleteButton.addEventListener('click', function() {
       const updatedTodo = { completed: true };
-      console.log('mark todo as complete');
       updateTodoItem(todo.id, updatedTodo);
     });
   } else {
@@ -576,7 +549,6 @@ function openTodoModal(todo) {
     // mark todo as incomplete
     markIncompleteButton.addEventListener('click', function() {
       const updatedTodo = { completed: false };
-      console.log('mark todo as incomplete');
       updateTodoItem(todo.id, updatedTodo);
     });
   }
@@ -595,7 +567,6 @@ function openTodoModal(todo) {
   let isEventListenerRemoved = false;
 
   // Update todo on save button click
-  console.log('Attaching editSaveButton event listener');
   editSaveButton.addEventListener('click', handleEditSaveButtonClick);
 
   // Define the event listener function inside openTodoModal
@@ -604,7 +575,6 @@ function openTodoModal(todo) {
       return;
     }
 
-    console.log('editSaveButton.addEventListener');
     const updatedTitle = titleInput.value.trim();
     if (updatedTitle.length < 3) {
       alert('Title must be at least 3 characters long.');
@@ -624,8 +594,6 @@ function openTodoModal(todo) {
       description: updatedDescription,
     };
 
-    console.log('update modal');
-    console.log('todo.id: ', todo.id);
     updateTodoItem(todo.id, updatedTodo);
 
     // Remove the event listener

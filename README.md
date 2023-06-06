@@ -2,32 +2,39 @@
 
 ### Revision #2 Notes
 
-I realized what I was doing wrong that was causing the issues:
+Thanks for the feedback! I realized what I was doing wrong that was causing the issues:
 
-My functions to handle updates to an existing todo was too convoluted. The app was originally attempting to fetch only the updates existing todo from the server, then to combine it with the rest of the todos being viewed in a sublist.
+##### Issue #1
+
+I realized that my functions to handle the updates to an existing todo was too convoluted. The app was originally attempting to fetch only the updates from the existing todo object from the server, then to combine it with the rest of the todos being viewed in a sublist of todos.
 
 Instead, I decided it would be much easier to store the date logic (i.e. `02/23` or `No Due Date`, etc.) of the currently loaded todo sublist being viewed. Then, the app will fetch the entire todo list from the server after an update is made. After fetching the entire todo list, the code will then filter down the entire todo list to display the todos matching the current sublist's date logic (e.g. filter down the master todo list to display only the completed todos with no due date, for example).
 
 The result is a much more simplified `fetchUpdates` function as it simply retrieves all todos from the server after an update is made to an existing todo. Then, the new `displayUpdatesOnContent` function filters down the todo list retrieved from `fetchUpdates` to match the parameters of the todo sublist the user was originally viewing to display to the user only the todos in the currently viewed sublist, post-update.
 
-Another major issue was due to the event listener not being removed from the modal's `Update` button after updating a todo. This was causing multiple todo items being updated at the same time, instead of only the selected todo. 
+##### Issue #2
 
-Other small fixes include handling bugs that were occurring in instances where the user removes the month and/or year value from an existing todo.
+Another major issue that was incredibly complex to solve was due to the event listener not being removed from the modal's `Update` button after closing the update/edit todo modal window. This was causing multiple todo items being updated at the same time, instead of only the selected todo. In my original fix, the event listener was only being removed when the `Update` button was clicked. After further testing, I realized that I had to also handle if the user closes the modal without submitting an update. 
+
+I believe this is now completely fixed. As a result of the fixes, the function `openTodoModal` is too complex and should be refactored and split into multiple helper functions in the future when I have time.
+
+##### Issue #3
+
+Other small fixes include handling bugs that were occurring in instances where the user removes the month and/or year value from an existing todo. One fix is storing the year value as `'0000'` on the server when the user wants to remove the year value from an existing todo item.
+
+
 
 
 ### Revision #1 Notes
 
 * Fixed the issue of the modal displaying incorrect content when clicking from the modal for editing a todo to the modal for adding a new todo.
-
 * Clicking on the area surrounding a todo's name toggles the todo as complete/incomplete.
-
 * When updating a todo, the current todo sublist is maintained
-
 * When a todo is toggled/deleted, the currently selected todo group doesn't change
-
 * I had to use global variables in two locations, which I understand isn't ideal and should be avoided.
-
 * Javascript browser alerts removed except to inform the user as to error responses from the server.
+
+
 
 
 ### Original Submission Notes

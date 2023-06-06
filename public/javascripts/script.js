@@ -524,34 +524,13 @@ function openTodoModal(todo) {
   const dueYearSelect = document.getElementById('dueYear');
   const descriptionTextarea = document.getElementById('description');
   const editSaveButton = document.getElementById('edit-saveButton');
+  const markCompleteButton = document.getElementById('markCompleteButton');
+  const markIncompleteButton = document.getElementById('markIncompleteButton');
 
   // Hide new save button and show edit save button
   const hideNewSaveButton = document.getElementById('new-saveButton');
   hideNewSaveButton.style.display = "none";
   editSaveButton.style.display = "block";
-
-  if (todo.completed === false){
-    // Show Mark As Complete button
-    const markCompleteButton = document.getElementById('markCompleteButton');
-    markIncompleteButton.style.display = "none";
-    markCompleteButton.style.display = "block";
-
-    // mark todo as complete
-    markCompleteButton.addEventListener('click', function() {
-      const updatedTodo = { completed: true };
-      updateTodoItem(todo.id, updatedTodo);
-    });
-  } else {
-    // Show Mark As Incomplete button
-    const markIncompleteButton = document.getElementById('markIncompleteButton');
-    markCompleteButton.style.display = "none";
-    markIncompleteButton.style.display = 'block';
-    // mark todo as incomplete
-    markIncompleteButton.addEventListener('click', function() {
-      const updatedTodo = { completed: false };
-      updateTodoItem(todo.id, updatedTodo);
-    });
-  }
 
   // Populate the modal with todo data
   titleInput.value = todo.title;
@@ -571,7 +550,7 @@ function openTodoModal(todo) {
 
   // Define the event listener function inside openTodoModal
   function handleEditSaveButtonClick() {
-    if (isEventListenerRemoved){
+    if (isEventListenerRemoved) {
       return;
     }
 
@@ -598,17 +577,24 @@ function openTodoModal(todo) {
 
     // Remove the event listener
     editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
+    isEventListenerRemoved = true;
+    console.log('handleEditSaveButtonClick isEventListenerRemoved: ', isEventListenerRemoved);
   }
 
   function closeModal() {
     modalOverlay.style.display = 'none';
     modal.style.display = 'none';
 
+    // Remove event listeners for markCompleteButton and markIncompleteButton
+    markCompleteButton.removeEventListener('click', handleMarkCompleteButtonClick);
+    markIncompleteButton.removeEventListener('click', handleMarkIncompleteButtonClick);
+
     // Check if the event listener is already removed
     if (!isEventListenerRemoved) {
       // Remove the event listener
       editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
       isEventListenerRemoved = true;
+      console.log('closeModal isEventListenerRemoved: ', isEventListenerRemoved);
     }
   }
 
@@ -622,32 +608,40 @@ function openTodoModal(todo) {
   // Attach event listener for click events
   window.addEventListener('click', handleClickOutsideModal);
 
-  // Function to cleanup event listener when modal is closed
-  function cleanupEventListener() {
-    window.removeEventListener('click', handleClickOutsideModal);
-  }
-
   // Event listener for cancelButton click
   function handleCancelButtonClick() {
-    editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
     closeModal();
   }
 
   cancelButton.addEventListener('click', handleCancelButtonClick);
 
-  function handleMarkCompleteButtonClick() {
-    editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
-    closeModal();
+  if (todo.completed === false) {
+    // Show Mark As Complete button
+    markIncompleteButton.style.display = "none";
+    markCompleteButton.style.display = "block";
+
+    // mark todo as complete
+    function handleMarkCompleteButtonClick() {
+      const updatedTodo = { completed: true };
+      updateTodoItem(todo.id, updatedTodo);
+      closeModal();
+    }
+
+    markCompleteButton.addEventListener('click', handleMarkCompleteButtonClick);
+  } else {
+    // Show Mark As Incomplete button
+    markCompleteButton.style.display = "none";
+    markIncompleteButton.style.display = 'block';
+
+    // mark todo as incomplete
+    function handleMarkIncompleteButtonClick() {
+      const updatedTodo = { completed: false };
+      updateTodoItem(todo.id, updatedTodo);
+      closeModal();
+    }
+
+    markIncompleteButton.addEventListener('click', handleMarkIncompleteButtonClick);
   }
-
-  markCompleteButton.addEventListener('click', handleMarkCompleteButtonClick);
-
-  function handleMarkIncompleteButtonClick() {
-    editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
-    closeModal();
-  }
-
-  markIncompleteButton.addEventListener('click', handleMarkIncompleteButtonClick);
 }
 
 // Get references to the required elements

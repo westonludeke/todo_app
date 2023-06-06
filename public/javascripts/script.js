@@ -578,7 +578,6 @@ function openTodoModal(todo) {
     // Remove the event listener
     editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
     isEventListenerRemoved = true;
-    console.log('handleEditSaveButtonClick isEventListenerRemoved: ', isEventListenerRemoved);
   }
 
   function closeModal() {
@@ -594,7 +593,6 @@ function openTodoModal(todo) {
       // Remove the event listener
       editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
       isEventListenerRemoved = true;
-      console.log('closeModal isEventListenerRemoved: ', isEventListenerRemoved);
     }
   }
 

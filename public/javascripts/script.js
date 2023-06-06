@@ -84,7 +84,6 @@ function createCheckbox(todo) {
   return checkbox;
 }
 
-// Adds trashcan to each todo box
 function createDeleteButton(todo, todos){
   const deleteButton = document.createElement('button');
   deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Add the trash can icon
@@ -95,7 +94,6 @@ function createDeleteButton(todo, todos){
   return deleteButton;
 }
 
-// Function to delete a todo item
 function deleteTodoItem(todoId, todos) {
   const xhr = new XMLHttpRequest();
   xhr.open('DELETE', `http://localhost:3000/api/todos/${todoId}`, true);
@@ -575,7 +573,6 @@ function openTodoModal(todo) {
 
     updateTodoItem(todo.id, updatedTodo);
 
-    // Remove the event listener
     editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
     isEventListenerRemoved = true;
   }

@@ -6,9 +6,11 @@ I realized what I was doing wrong that was causing the issues:
 
 My functions to handle updates to an existing todo was too convoluted. The app was originally attempting to fetch only the updates existing todo from the server, then to combine it with the rest of the todos being viewed in a sublist.
 
-Instead, I decided it would be much easier to store the date logic (i.e. `02/23` or `No Due Date`, etc.) of the currently loaded sublist being viewed. Then, the app will fetch the entire todo list from the server after an update is made. After fetching the entire todo list, the code will then filter down the entire todo list to display the todos matching the current sublist's date logic.
+Instead, I decided it would be much easier to store the date logic (i.e. `02/23` or `No Due Date`, etc.) of the currently loaded todo sublist being viewed. Then, the app will fetch the entire todo list from the server after an update is made. After fetching the entire todo list, the code will then filter down the entire todo list to display the todos matching the current sublist's date logic (e.g. filter down the master todo list to display only the completed todos with no due date, for example).
 
 The result is a much more simplified `fetchUpdates` function as it simply retrieves all todos from the server after an update is made to an existing todo. Then, the new `displayUpdatesOnContent` function filters down the todo list retrieved from `fetchUpdates` to match the parameters of the todo sublist the user was originally viewing to display to the user only the todos in the currently viewed sublist, post-update.
+
+Another major issue was due to the event listener not being removed from the modal's `Update` button after updating a todo. This was causing multiple todo items being updated at the same time, instead of only the selected todo. 
 
 Other small fixes include handling bugs that were occurring in instances where the user removes the month and/or year value from an existing todo.
 

@@ -591,12 +591,19 @@ function openTodoModal(todo) {
   modalOverlay.style.display = 'block';
   modal.style.display = 'block';
 
+  // Track whether the event listener is removed
+  let isEventListenerRemoved = false;
+
   // Update todo on save button click
   console.log('Attaching editSaveButton event listener');
   editSaveButton.addEventListener('click', handleEditSaveButtonClick);
 
   // Define the event listener function inside openTodoModal
   function handleEditSaveButtonClick() {
+    if (isEventListenerRemoved){
+      return;
+    }
+
     console.log('editSaveButton.addEventListener');
     const updatedTitle = titleInput.value.trim();
     if (updatedTitle.length < 3) {
@@ -624,6 +631,55 @@ function openTodoModal(todo) {
     // Remove the event listener
     editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
   }
+
+  function closeModal() {
+    modalOverlay.style.display = 'none';
+    modal.style.display = 'none';
+
+    // Check if the event listener is already removed
+    if (!isEventListenerRemoved) {
+      // Remove the event listener
+      editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
+      isEventListenerRemoved = true;
+    }
+  }
+
+  // Attach event listener to close the modal when click is outside
+  function handleClickOutsideModal(event) {
+    if (event.target === modalOverlay || event.target === modal) {
+      closeModal();
+    }
+  }
+
+  // Attach event listener for click events
+  window.addEventListener('click', handleClickOutsideModal);
+
+  // Function to cleanup event listener when modal is closed
+  function cleanupEventListener() {
+    window.removeEventListener('click', handleClickOutsideModal);
+  }
+
+  // Event listener for cancelButton click
+  function handleCancelButtonClick() {
+    editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
+    closeModal();
+  }
+
+  cancelButton.addEventListener('click', handleCancelButtonClick);
+
+  function handleMarkCompleteButtonClick() {
+    editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
+    closeModal();
+  }
+
+  markCompleteButton.addEventListener('click', handleMarkCompleteButtonClick);
+
+  function handleMarkIncompleteButtonClick() {
+    editSaveButton.removeEventListener('click', handleEditSaveButtonClick);
+    closeModal();
+  }
+
+  markIncompleteButton.addEventListener('click', handleMarkIncompleteButtonClick);
 }
 
 // Get references to the required elements

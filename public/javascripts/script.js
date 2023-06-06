@@ -9,6 +9,7 @@ reloadLinks.forEach((link) => {
 
 // Function to retrieve and display all todos
 function fetchTodos() {
+  console.log('invoking - fetchTodos');
   viewingCompletedSublist = false;
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'http://localhost:3000/api/todos', true);
@@ -19,8 +20,8 @@ function fetchTodos() {
         const allTodosLength = todos.length;
         displayTodos(todos);
         displayTodoCountOnListHeader(todos, allTodosLength);
-        createSublists(todos);
-        createCompletedSublists(todos);
+        // createSublists(todos);
+        // createCompletedSublists(todos);
         fetchUpdatesForSidebar();
       } else {
         alert('Failed to fetch todos.');
@@ -32,6 +33,7 @@ function fetchTodos() {
 
 // Function to fetch and display only completed todos
 function fetchCompletedTodos() {
+  console.log('invoking - fetchCompletedTodos');
   viewingCompletedSublist = true;
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'http://localhost:3000/api/todos', true);
@@ -123,7 +125,7 @@ function clickTodoBoxChangeStatus(todo, listItem) {
   listItem.addEventListener('click', function (event) {
     if (event.target.tagName !== 'SPAN' && event.target.tagName !== 'BUTTON') {
       const updatedTodo = { completed: !todo.completed };
-      console.log('clickTodoBoxChangeStatus event listener');
+      // console.log('clickTodoBoxChangeStatus event listener');
       updateTodoItem(todo.id, updatedTodo);
     }
   });
@@ -148,6 +150,7 @@ function displayTodoCountOnListHeader(todos, allTodosLength) {
 let currentTodoSubset = [];
 
 function displayTodos(todos) {
+  console.log('invoking - displayTodos');
   todos = sortTodos(todos);
   currentTodoSubset = todos; 
 
@@ -253,6 +256,8 @@ function displaySublistsOnSidebar(sublists) {
 }
 
 function displaySublistsOnContent(sublists) {
+  console.log('invoking - displaySublistsOnContent');
+  console.log('sublists: ', sublists);
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.sublist');
 
@@ -331,6 +336,8 @@ let viewingCompletedSublist = false;
 let dateOfSublistBeingCurrentlyViewed = '';
 
 function displayCompletedSublistsOnContent(sublists) {
+  console.log('invoking - displayCompletedSublistsOnContent');
+  console.log('sublists: ', sublists);
   const sidebar = document.getElementById('sidebar');
   const sublistItems = sidebar.querySelectorAll('.completed-sublist');
 
@@ -439,7 +446,7 @@ window.onclick = function(event){
 }
 
 function updateTodoItem(todoId, updatedTodo) {
-  console.log('updateTodoItem invoked');
+  console.log('invoking - updateTodoItem');
   console.log('todoId: ', todoId);
   console.log('updatedTodo: ', updatedTodo);
   console.log('----');
@@ -464,7 +471,7 @@ function updateTodoItem(todoId, updatedTodo) {
 
 // Function to fetch updated master todo list from the server
 function fetchUpdates() {
-  console.log('fetchUpdates invoked');
+  console.log('invoking - fetchUpdates');
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `http://localhost:3000/api/todos`, true);
   xhr.onreadystatechange = function() {
@@ -505,6 +512,7 @@ function displayUpdatesOnContent(updatedTodoList) {
 }
 
 function fetchUpdatesForSidebar() {
+  console.log('invoking - fetchUpdatesForSidebar');
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'http://localhost:3000/api/todos', true);
   xhr.onreadystatechange = function() {

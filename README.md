@@ -1,5 +1,7 @@
 # Todo App
 
+![todo app screenshot](https://github.com/westonludeke/todo_app/blob/main/public/todo_app.png?raw=true)
+
 ### About This Project
 
 This is a todo list CRUD app with a focus on the front-end portion of a Node application. The code was written in Javascript, HTML, and CSS. 
@@ -23,7 +25,7 @@ The focus was not on the app's aesthetics (i.e. not the HTML and CSS) and more o
 
 To run the application
 
-1. Install and run a Node version that is between `> 9.0 but <= LTS Dubnium (v10.24.1)`.
+1. Install and run a Node version that is between `> 9.0` but `<= LTS Dubnium (v10.24.1)`.
 2. Clone the repo
 3. Run `npm install` from the root project folder which will install the needed dependencies
 4. Run `npm start` to start up the server

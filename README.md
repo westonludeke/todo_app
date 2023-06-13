@@ -6,17 +6,19 @@
 
 This is a todo list CRUD app with a focus on the front-end portion of a Node application. The code was written in Javascript, HTML, and CSS. 
 
-The focus was not on the app's aesthetics (i.e. not the HTML and CSS) and more on the components of building a functional front-end app.
+The focus was not on the app's aesthetics (i.e. the focus wasn't on the HTML and CSS) and more on the components of building a functional front-end app able to send/retrieve updates from a Node server.
 
 ### Goals
 
 * All CRUD operations for the todos happen first on the server, then afterwards on the front-end.
 
-* A `main` content area on the website which will display the todo list
+* A `main` content area on the website which displays the todo list.
 
 * A `nav` area on the sidebar to display groupings of the different todo sublists (i.e. subgroups of todos grouped by month/year).
 
 * A modal which loads when adding/editing a todo, allowing the user to make the necessary additions and/or changes.
+
+* Modal info changes depending on the todo loaded.
 
 * The `nav` section updates as the master list of all todos updates.
 
